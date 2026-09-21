@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Tasy — Fluxo de Paciente 2.0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #f0f4f8; padding: 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 30px; }
+        h1 { text-align: center; color: #0b3d5f; margin-bottom: 10px; font-size: 22px; }
+        .subtitulo { text-align:center; color:#666; margin-bottom:25px; font-size:14px; }
+        .botoes { text-align:center; margin-bottom:25px; }
+        .btn { 
+            background: #0066cc; color: white; border: none; padding: 10px 18px; 
+            border-radius: 6px; cursor: pointer; font-size: 15px; margin: 5px; 
+        }
+        .btn:hover { background: #0052a3; }
+        .btn-secundario { background: #28a745; }
+        .btn-secundario:hover { background: #218838; }
+        .questao { border: 1px solid #d0dce8; border-radius: 10px; padding: 20px; margin-bottom: 25px; background: #f8fbfd; }
+        .enunciado { font-size: 14px; font-weight: bold; color: #1a3b54; margin-bottom: 15px; line-height: 1.5; }
+        .alternativa { display: block; padding: 10px; margin: 7px 0; border-radius: 6px; border: 1px solid #b8c9d9; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .alternativa:hover { background: #e8f1f8; }
+        .resposta { margin-top: 12px; padding: 12px; border-radius: 6px; display: none; font-size: 14px; }
+        .resposta-correta { background: #e6f9e9; border: 2px solid #28a745; color: #155724; }
+        .resposta-errada { background: #fdeeee; border: 2px solid #dc3545; color: #721c24; }
+        .explicacao { margin-top: 8px; font-size: 14px; color: #333; line-height: 1.5; }
+        .painel-pontos { 
+            background: #eaf4fc; border-left: 5px solid #0066cc; padding: 25px; margin-top: 30px; 
+            border-radius: 8px; display: none;
+        }
+        .dados-resultado { font-size: 18px; margin: 10px 0; line-height: 1.8; }
+        .aprovado { color: #28a745; }
+        .estudar-mais { color: #dc3545; }
+        .regular { color: #f59e0b; }
+        .barra-progresso { 
+            height: 14px; background: #e0e0e0; border-radius: 7px; margin: 15px 0; overflow: hidden; 
+        }
+        .barra-preenchida { 
+            height: 100%; border-radius: 7px; width: 0%; transition: width 0.6s ease; 
+        }
+        .respondida { pointer-events: none; opacity: 0.8; }
+        .lista-erros { margin-top:15px; padding:15px; background:#fff3cd; border-radius:6px; display:none; }
+        .multipla-aviso { color: #666; font-size: 13px; font-style: italic; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📋 Quiz — Fluxo de Paciente 2.0</h1>
+    <p class="subtitulo">Ordem fixa • Respostas embaralhadas 🔀</p>
+
+    <div class="botoes">
+        <button class="btn btn-secundario" onclick="carregarQuestoes()">🔀 Embaralhar Respostas</button>
+        <button class="btn" onclick="reiniciarRespostas()">🔄 Reiniciar Quiz</button>
+    </div>
+    
+    <div id="area-questoes"></div>
+
+    <div class="painel-pontos" id="painelResultado">
+        <h2>📊 Resultado Final</h2>
+        <div class="dados-resultado">
+            <strong>✅ Acertos:</strong> <span id="acertos">0</span><br>
+            <strong>❌ Erros:</strong> <span id="erros">0</span><br>
+            <strong>📝 Nota:</strong> <span id="nota">0</span>/12<br>
+            <strong>📈 Porcentagem de acerto:</strong> <span id="porc">0</span>%
+        </div>
+        <div class="barra-progresso">
+            <div class="barra-preenchida" id="barra"></div>
+        </div>
+        <p id="mensagemFinal" style="margin-top:15px; font-weight:bold; font-size:16px;"></p>
+        <div class="lista-erros" id="lista-erros"></div>
+    </div>
+</div>
+
+<script>
+const bancoQuestoes = [
+    {
+        id: 1,
+        enunciado: "1. Através de qual recurso HTML do Tasy é possível agendar uma consulta ambulatorial?",
+        alternativas: {
+            a: "Agenda de Serviços Ambulatoriais",
+            b: "Agenda Ambulatorial",
+            c: "Agenda de Consultas",
+            d: "Agenda Integrada"
+        },
+        correta: "c",
+        explicacao: "O agendamento de consulta ambulatorial no Tasy é realizado pela função Agenda de Consultas."
+    },
+    {
+        id: 2,
+        enunciado: "2. Selecione a sequência correta para o fluxo ambulatorial.",
+        alternativas: {
+            a: "Autorização de Seguro de Saúde → Agendamento de Consulta Médica → Avaliação Médica",
+            b: "Agendamento de Consulta Médica → Avaliação Médica → Autorização de Seguro de Saúde",
+            c: "Agendamento de consultas médicas → Fórmula médica → Entrega em farmácia",
+            d: "Agendamento de Consulta Médica → Autorização de Convênio → Avaliação Médica"
+        },
+        correta: "d",
+        explicacao: "Sequência correta: Agendamento → Autorização do Convênio → Avaliação/Atendimento Médico."
+    },
+    {
+        id: 3,
+        enunciado: "3. Quais afirmações são verdadeiras? (Selecione todas as corretas)",
+        multipla: true,
+        alternativas: {
+            a: "A geração de um número de atendimento ambulatorial é obrigatória para que médicos e outros profissionais possam registrar dados no prontuário do paciente.",
+            b: "Não é necessário agendar uma consulta médica ambulatorial, pois o paciente pode ser atendido por ordem de chegada no Tasy.",
+            c: "Para concluir o atendimento ambulatorial, o médico pode prescrever uma receita médica e emitir um atestado, utilizando as funcionalidades disponíveis.",
+            d: "Para consultas ambulatoriais não é necessário nenhum tipo de autorização do convênio do paciente."
+        },
+        corretas: ["a", "c"],
+        explicacao: "A e C estão corretas: o número de atendimento é obrigatório para registro; e o médico pode prescrever receita e emitir atestado. B está errada porque o agendamento é o padrão; D está errada porque a autorização do convênio é necessária."
+    },
+    {
+        id: 4,
+        enunciado: "4. Por meio de qual função do Tasy na plataforma HTML5 é possível realizar triagem e classificação?",
+        alternativas: {
+            a: "Entrada Única de Pacientes",
+            b: "Prontuário Eletrônico do Paciente – PEP",
+            c: "CPOE",
+            d: "Administração Eletrônica da Prescrição – ADEP"
+        },
+        correta: "a",
+        explicacao: "A triagem e classificação de risco são realizadas na função Entrada Única de Pacientes no momento do acolhimento."
+    },
+    {
+        id: 5,
+        enunciado: "5. Qual ação o médico do Pronto Atendimento pode realizar na função CPOE?",
+        alternativas: {
+            a: "Prescrever medicamentos",
+            b: "Administrar medicamentos",
+            c: "Aplicar uma escala",
+            d: "Gerenciar procedimentos"
+        },
+        correta: "a",
+        explicacao: "A função CPOE (Prescrição Eletrônica) é utilizada pelo médico para prescrever medicamentos e tratamentos."
+    },
+    {
+        id: 6,
+        enunciado: "6. Em relação à função ADEP, podemos afirmar que:",
+        alternativas: {
+            a: "É possível acessar esta função através do item ADEP do Prontuário Eletrônico do Paciente – PEP",
+            b: "É usado principalmente por usuários médicos",
+            c: "Permite prescrever e administrar soluções e medicamentos",
+            d: "Permite realizar a triagem de enfermagem"
+        },
+        correta: "a",
+        explicacao: "A ADEP é acessível pelo PEP e serve para a enfermagem conferir e administrar a prescrição — não para prescrever."
+    },
+    {
+        id: 7,
+        enunciado: "7. Através de qual item no PEP é registrado o preparo do paciente e saída cirúrgica, e entrada na sala cirúrgica?",
+        alternativas: {
+            a: "Notas Clínicas",
+            b: "Dispositivos",
+            c: "Tempos e movimentos",
+            d: "Cirurgia – resumo e descrição"
+        },
+        correta: "c",
+        explicacao: "Os eventos de preparo, saída para centro cirúrgico e entrada na sala são registrados em Tempos e Movimentos Cirúrgicos."
+    },
+    {
+        id: 8,
+        enunciado: "8. Com relação ao agendamento de procedimento cirúrgico, podemos afirmar que:",
+        alternativas: {
+            a: "O agendamento da cirurgia é realizado na função Gestão da Agenda Cirúrgica",
+            b: "O agendamento da cirurgia é realizado na função Entrada Única de Pacientes",
+            c: "O agendamento da cirurgia é realizado na função PEP",
+            d: "O agendamento da cirurgia é realizado na função Agenda de Consultas"
+        },
+        correta: "a",
+        explicacao: "O agendamento cirúrgico é feito exclusivamente na Gestão da Agenda Cirúrgica."
+    },
+    {
+        id: 9,
+        enunciado: "9. Assinale a alternativa correta sobre a função CLEPA – Controle Eletrônico dos Processos Assistenciais.",
+        alternativas: {
+            a: "O procedimento é confirmado pelo paciente, pelo anestesiologista, pelo cirurgião e pela equipe de enfermagem antes de iniciar.",
+            b: "É utilizada para registro de avaliação pré-anestésica do paciente. O procedimento só inicia após consentimento.",
+            c: "É utilizada para avaliar dificuldades durante a intubação e visualizar estruturas anatômicas.",
+            d: "Permite monitorar sinais vitais durante o procedimento, com acompanhamento pela equipe de anestesia."
+        },
+        correta: "b",
+        explicacao: "A CLEPA registra a avaliação pré-anestésica e formaliza o consentimento para o procedimento."
+    },
+    {
+        id: 10,
+        enunciado: "10. Quais itens no PEP são comumente registrados pela enfermeira na internação?",
+        alternativas: {
+            a: "Dispositivos, sinais vitais, plano de cuidados e notas clínicas",
+            b: "Prescrição, Plano de Cuidados, Diagnóstico e CPOE",
+            c: "Balanço hídrico, Admissões e Altas, Sinais Vitais, Plano de Cuidados e CPOE",
+            d: "Diagnóstico, CPOE, Receitas e Atestados"
+        },
+        correta: "a",
+        explicacao: "A enfermeira registra dispositivos, sinais vitais, plano de cuidados e notas clínicas. Prescrição e CPOE são de responsabilidade médica."
+    },
+    {
+        id: 11,
+        enunciado: "11. Qual função proporciona visualização consolidada de pacientes em internação por meio de cards com leitos e informações dinâmicas?",
+        alternativas: {
+            a: "Prontuário Eletrônico do Paciente – PEP",
+            b: "Painel Clínico",
+            c: "CPOE",
+            d: "ADEP"
+        },
+        correta: "b",
+        explicacao: "O Painel Clínico apresenta os pacientes em cards com visão consolidada da internação."
+    },
+    {
+        id: 12,
+        enunciado: "12. Quais itens no PEP são comumente registrados pelo médico da internação?",
+        alternativas: {
+            a: "Dispositivos, sinais vitais, plano de cuidados e cuidados de enfermagem",
+            b: "Prescrição, Plano de Cuidados, Diagnóstico e CPOE",
+            c: "Balanço hídrico, Intercorrências e Altas, Sinais Vitais, Plano de Cuidados",
+            d: "Diagnóstico, CPOE, Receitas, Atestados"
+        },
+        correta: "b",
+        explicacao: "Ao médico cabe: prescrição (CPOE), diagnóstico, definição do Plano de Cuidados e emissão de receitas/atestados."
+    }
+];
+
+let acertos = 0, respondidas = 0, historicoErros = [];
+
+function embaralharAlternativas(questao) {
+    const itens = Object.entries(questao.alternativas);
+    for (let i = itens.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [itens[i], itens[j]] = [itens[j], itens[i]];
+    }
+    const novasAlternativas = {};
+    let novaCorreta = '', novasCorretas = [];
+    const letras = 'abcdefghij';
+    itens.forEach((item, indice) => {
+        if (!questao.multipla && item[0] === questao.correta) novaCorreta = letras[indice];
+        if (questao.multipla && questao.corretas.includes(item[0])) novasCorretas.push(letras[indice]);
+        novasAlternativas[letras[indice]] = item[1];
+    });
+    return { novasAlternativas, novaCorreta, novasCorretas };
+}
+
+function carregarQuestoes() {
+    acertos = respondidas = 0; historicoErros = [];
+    document.getElementById('painelResultado').style.display = 'none';
+    document.getElementById('lista-erros').style.display = 'none';
+    const area = document.getElementById('area-questoes');
+    area.innerHTML = '';
+    bancoQuestoes.forEach(q => {
+        const { novasAlternativas, novaCorreta, novasCorretas } = embaralharAlternativas(q);
+        const letras = Object.keys(novasAlternativas);
+        let html = `<div class="questao" id="q${q.id}"><p class="enunciado">${q.enunciado}</p>`;
+        if (q.multipla) html += `<p class="multipla-aviso">ℹ️ Selecione todas as alternativas corretas</p>`;
+        letras.forEach(letra => {
+            html += `<label class="alternativa" onclick="responder('${q.id}', ${JSON.stringify(q.multipla ? novasCorretas : novaCorreta)}, '${letra}', this, ${q.multipla || false})">${letra.toUpperCase()}) ${novasAlternativas[letra]}</label>`;
+        });
+        html += `<div id="resp${q.id}" class="resposta"><span id="iconeResp${q.id}"></span><strong id="textoResp${q.id}"></strong><p class="explicacao"><strong>Explicação:</strong> ${q.explicacao}</p></div></div>`;
+        area.innerHTML += html;
+    });
+}
+
+function reiniciarRespostas() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(carregarQuestoes, 300);
+}
+
+function responder(idQuestao, gabarito, escolhida, elemento, multipla) {
+    const questaoDiv = document.getElementById(`q${idQuestao}`);
+    questaoDiv.classList.add('respondida');
+    questaoDiv.querySelectorAll('.alternativa').forEach(l => l.style.pointerEvents = 'none');
+    const respDiv = document.getElementById(`resp${idQuestao}`);
+    const icone = document.getElementById(`iconeResp${idQuestao}`);
+    const texto = document.getElementById(`textoResp${idQuestao}`);
+    
+    let acertou = false;
+    if (multipla) {
+        acertou = gabarito.includes(escolhida);
+        const marcadas = Array.from(questaoDiv.querySelectorAll('.alternativa:checked')).map(l => l.textContent[0].toLowerCase());
+        const todasCorretas = gabarito.every(c => marcadas.includes(c)) && marcadas.every(m => gabarito.includes(m));
+        acertou = todasCorretas;
+    } else {
+        acertou = (gabarito === escolhida);
+    }
+    
+    respDiv.style.display = 'block';
+    if (acertou) {
+        acertos++;
+        respDiv.className = 'resposta resposta-correta';
+        icone.textContent = '✅ ';
+        texto.textContent = `Acertou! Resposta: ${multipla ? gabarito.map(c => c.toUpperCase()).join(' e ') : gabarito.toUpperCase()}`;
+    } else {
+        respDiv.className = 'resposta resposta-errada';
+        icone.textContent = '❌ ';
+        texto.textContent = `Errou! Você escolheu ${escolhida.toUpperCase()}. Correta(s): ${multipla ? gabarito.map(c => c.toUpperCase()).join(' e ') : gabarito.toUpperCase()}`;
+        historicoErros.push({ id: idQuestao, escolhida: escolhida.toUpperCase(), correta: multipla ? gabarito.map(c => c.toUpperCase()).join(' / ') : gabarito.toUpperCase() });
+    }
+    respondidas++;
+    if (respondidas === bancoQuestoes.length) setTimeout(mostrarResultadoFinal, 600);
+}
+
+function mostrarResultadoFinal() {
+    const painel = document.getElementById('painelResultado');
+    const total = bancoQuestoes.length;
+    const erros = total - acertos;
+    const porcentagem = Math.round((acertos / total) * 100);
+    
+    document.getElementById('acertos').textContent = acertos;
+    document.getElementById('erros').textContent = erros;
+    document.getElementById('nota').textContent = acertos;
+    document.getElementById('porc').textContent = porcentagem;
+    
+    const barra = document.getElementById('barra');
+    barra.style.width = porcentagem + '%';
+    
+    let classe, mensagem, corBarra;
+    if (acertos >= 9) { classe = 'aprovado'; corBarra = '#28a745'; mensagem = `✅ Parabéns! Pode fazer a prova com confiança!`; }
+    else if (acertos >= 7) { classe = 'regular'; corBarra = '#f59e0b'; mensagem = `⚠️ Você está quase pronto! Revise os pontos que errou e refaça.`; }
+    else { classe = 'estudar-mais'; corBarra = '#dc3545'; mensagem = `❌ Recomendado estudar mais antes de tentar a certificação.`; }
+    
+    barra.style.background = corBarra;
+    document.getElementById('mensagemFinal').innerHTML = mensagem;
+    
+    const listaErros = document.getElementById('lista-erros');
+    if (historicoErros.length > 0) {
+        listaErros.style.display = 'block';
+        listaErros.innerHTML = `<strong>📝 Lista de erros:</strong><br><br>`;
+        historicoErros.forEach(e => {
+            const q = bancoQuestoes.find(b => b.id === e.id);
+            listaErros.innerHTML += `• <strong>Questão ${e.id}:</strong> ${q.enunciado.substring(0,70)}...<br>→ Você: ${e.escolhida} | Correta: ${e.correta}<br><br>`;
+        });
+    } else {
+        listaErros.style.display = 'none';
+    }
+    
+    painel.style.display = 'block';
+    painel.scrollIntoView({ behavior: 'smooth' });
+}
+
+window.onload = carregarQuestoes;
+</script>
+</body>
+</html>
