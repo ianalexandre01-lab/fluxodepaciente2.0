@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Tasy — Fluxo de Paciente + Administração do Sistema</title>
+    <title>Quiz Tasy — Estudo Completo</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
         body { background: #f0f4f8; padding: 20px; line-height: 1.6; }
@@ -44,22 +44,36 @@
 
 <div class="container">
     <h1>📚 Estudo Completo — Tasy</h1>
-    <p class="subtitulo">Fluxo de Paciente 2.0 + Tasy EMR | Administração do Sistema — Gabarito Oficial ✅</p>
+    <p class="subtitulo">Arquitetura • Cadastros Gerais • Fluxo de Paciente • Administração do Sistema ✅</p>
 
     <div class="botoes">
         <button class="btn btn-principal" onclick="iniciarTudo()">🔄 Iniciar / Reiniciar Prova</button>
     </div>
 
-    <!-- ========== PARTE 1: FLUXO DE PACIENTE — 1 a 12 ========== -->
-    <h2>📋 Parte 1 — Fluxo de Paciente 2.0</h2>
-    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 1 a 12</p>
+    <!-- ========== PARTE 1: ARQUITETURA TECNOLÓGICA — 1 a 5 ========== -->
+    <h2>🏗️ Parte 1 — Arquitetura Tecnológica</h2>
+    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 1 a 5</p>
+    <div id="area-arquitetura"></div>
+
+    <hr class="divisor">
+
+    <!-- ========== PARTE 2: CADASTROS GERAIS — 6 a 10 ========== -->
+    <h2>📋 Parte 2 — Cadastros Gerais</h2>
+    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 6 a 10</p>
+    <div id="area-cadastros"></div>
+
+    <hr class="divisor">
+
+    <!-- ========== PARTE 3: FLUXO DE PACIENTE — 11 a 22 ========== -->
+    <h2>🏥 Parte 3 — Fluxo de Paciente 2.0</h2>
+    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 11 a 22</p>
     <div id="area-fluxo"></div>
 
     <hr class="divisor">
 
-    <!-- ========== PARTE 2: ADMINISTRAÇÃO — 13 a 22 ========== -->
-    <h2>🏥 Parte 2 — Tasy EMR | Administração do Sistema</h2>
-    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 13 a 22 — Gabarito oficial ✅</p>
+    <!-- ========== PARTE 4: ADMINISTRAÇÃO — 23 a 32 ========== -->
+    <h2>⚙️ Parte 4 — Administração do Sistema</h2>
+    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 23 a 32</p>
     <div id="area-admin"></div>
 
     <!-- ========== RESULTADO GERAL ========== -->
@@ -67,10 +81,12 @@
         <h2>📊 Resultado Geral</h2>
         <p class="data-hora" id="data-hora-resultado"></p>
         <div class="dados-resultado">
-            <strong>📋 Fluxo de Paciente (1–12):</strong> <span id="acertos-fluxo">0</span>/12<br>
-            <strong>🏥 Administração do Sistema (13–22):</strong> <span id="acertos-admin">0</span>/10<br>
+            <strong>🏗️ Arquitetura Tecnológica (1–5):</strong> <span id="acertos-arquitetura">0</span>/5<br>
+            <strong>📋 Cadastros Gerais (6–10):</strong> <span id="acertos-cadastros">0</span>/5<br>
+            <strong>🏥 Fluxo de Paciente (11–22):</strong> <span id="acertos-fluxo">0</span>/12<br>
+            <strong>⚙️ Administração do Sistema (23–32):</strong> <span id="acertos-admin">0</span>/10<br>
             <hr style="margin:8px 0;">
-            <strong>✅ TOTAL DE ACERTOS:</strong> <span id="total-acertos">0</span>/22<br>
+            <strong>✅ TOTAL DE ACERTOS:</strong> <span id="total-acertos">0</span>/32<br>
             <strong>📈 Porcentagem Geral:</strong> <span id="porc-geral">0</span>%
         </div>
         <div class="barra-progresso">
@@ -82,11 +98,19 @@
 
         <div class="lista-erros" id="todos-erros">
             <div class="grupo-erros">
-                <strong>📋 Revisar — Fluxo de Paciente:</strong><br>
+                <strong>🏗️ Revisar — Arquitetura Tecnológica:</strong><br>
+                <span id="lista-erros-arquitetura">Nenhum erro! 🎉</span>
+            </div>
+            <div class="grupo-erros">
+                <strong>📋 Revisar — Cadastros Gerais:</strong><br>
+                <span id="lista-erros-cadastros">Nenhum erro! 🎉</span>
+            </div>
+            <div class="grupo-erros">
+                <strong>🏥 Revisar — Fluxo de Paciente:</strong><br>
                 <span id="lista-erros-fluxo">Nenhum erro! 🎉</span>
             </div>
             <div class="grupo-erros">
-                <strong>🏥 Revisar — Administração do Sistema:</strong><br>
+                <strong>⚙️ Revisar — Administração do Sistema:</strong><br>
                 <span id="lista-erros-admin">Nenhum erro! 🎉</span>
             </div>
         </div>
@@ -95,11 +119,144 @@
 
 <script>
 // ==============================================
-// PARTE 1 — FLUXO DE PACIENTE 2.0 (1 a 12)
+// PARTE 1 — ARQUITETURA TECNOLÓGICA (1 a 5)
+// ==============================================
+const arquiteturaPerguntas = [
+    {
+        numero: 1,
+        texto: "Sobre a arquitetura do Tasy, marque as opções corretas referentes aos benefícios de termos mais de um servidor de aplicação nas plataformas Java e HTML.",
+        multipla: true,
+        opcoes: {
+            a: "Performance.",
+            b: "Escalabilidade.",
+            c: "Desempenho.",
+            d: "Insegurança."
+        },
+        certas: ["a", "b", "c"],
+        expl: "Corretas: A, B e C. Múltiplos servidores garantem melhor desempenho, performance e escalabilidade. 'Insegurança' não é um benefício."
+    },
+    {
+        numero: 2,
+        texto: "Qual o driver utilizado pelo Tasy Delphi para conexão com o banco de dados?",
+        opcoes: {
+            a: "RMD.",
+            b: "JODBC.",
+            c: "BDE.",
+            d: "KDE."
+        },
+        certa: "c",
+        expl: "Correta: O Tasy Delphi utiliza o BDE (Borland Database Engine) como driver de conexão."
+    },
+    {
+        numero: 3,
+        texto: "Com mais de um servidor de aplicação, qual recurso identifica qual servidor deve receber cada requisição do usuário, distribuindo as conexões?",
+        opcoes: {
+            a: "Firewall.",
+            b: "Balanceador de Cargas.",
+            c: "Servidor de Arquivos.",
+            d: "Banco de Dados."
+        },
+        certa: "b",
+        expl: "Correta: O Balanceador de Cargas distribui as requisições entre os servidores disponíveis, escolhendo o melhor para cada solicitação."
+    },
+    {
+        numero: 4,
+        texto: "De acordo com a arquitetura do Tasy, como é identificada a forma de conexão com o banco de dados?",
+        opcoes: {
+            a: "Cliente - Fornecedor.",
+            b: "Cliente - Servidor.",
+            c: "Cliente - Software.",
+            d: "Cliente - Desenvolvedor."
+        },
+        certa: "b",
+        expl: "Correta: A arquitetura do Tasy segue o modelo Cliente-Servidor."
+    },
+    {
+        numero: 5,
+        texto: "Na arquitetura do Tasy, em qual camada são encontrados os dicionários de objetos, dados e idiomas?",
+        opcoes: {
+            a: "Clientes.",
+            b: "Integração.",
+            c: "Servidor.",
+            d: "Banco de dados."
+        },
+        certa: "d",
+        expl: "Correta: Os dicionários de objetos, dados e idiomas ficam armazenados na camada do Banco de Dados."
+    }
+];
+
+// ==============================================
+// PARTE 2 — CADASTROS GERAIS (6 a 10)
+// ==============================================
+const cadastrosPerguntas = [
+    {
+        numero: 6,
+        texto: "Com relação aos Cadastros Gerais, assinale a alternativa correta.",
+        opcoes: {
+            a: "Uma vez liberada determinada tabela dos Cadastros Gerais, não é possível configurar permissão que irá restringir entre consulta e edição.",
+            b: "Todos os Cadastros utilizados no sistema podem ser criados ou editados pela instituição nos Cadastros Gerais.",
+            c: "Os Cadastros Gerais se restringem ao cadastro de informações que serão visíveis ao usuário para seleção, não estão relacionados a regras e comportamentos do sistema.",
+            d: "Nem todos os cadastros podem ser criados ou editados pela instituição nos Cadastros Gerais. Alguns são de propriedade da Philips, que realiza sua manutenção e atualização."
+        },
+        certa: "d",
+        expl: "Correta: A instituição gerencia parte dos cadastros, mas alguns são de propriedade e mantidos pela Philips — não podem ser alterados pela instituição."
+    },
+    {
+        numero: 7,
+        texto: "De quem é a responsabilidade da manutenção dos Cadastros Gerais da instituição?",
+        opcoes: {
+            a: "A Philips é responsável.",
+            b: "Cada instituição é responsável pela manutenção dos seus Cadastros Gerais.",
+            c: "De qualquer usuário que acesse o sistema.",
+            d: "A responsabilidade é tanto da Philips como da instituição."
+        },
+        certa: "b",
+        expl: "Correta: A instituição é responsável por manter seus próprios cadastros, conforme suas necessidades e realidade."
+    },
+    {
+        numero: 8,
+        texto: "Assinale a alternativa correta sobre como acessar os Cadastros Gerais.",
+        opcoes: {
+            a: "Através do cadastro do Usuário e do cadastro do Perfil.",
+            b: "Através do utilitário Cadastros Gerais e Parâmetros Assistenciais.",
+            c: "Através do utilitário Cadastros Gerais e através da informação do campo item Cadastros Gerais.",
+            d: "Administração do Sistema e através da informação do campo item Cadastros Gerais."
+        },
+        certa: "c",
+        expl: "Correta: O acesso se dá pelo utilitário Cadastros Gerais e também pelo campo 'item Cadastros Gerais' presente nas funções."
+    },
+    {
+        numero: 9,
+        texto: "Por meio de qual recurso o usuário pode consultar a tabela correspondente a determinado cadastro?",
+        opcoes: {
+            a: "Por meio dos parâmetros da função correspondente.",
+            b: "Por meio do ícone de informação de determinado campo.",
+            c: "Por meio de relatórios.",
+            d: "Através de abertura de Ordem de Serviço."
+        },
+        certa: "b",
+        expl: "Correta: O ícone de informação (Infobutton) do campo exibe a tabela e atributo correspondentes daquele cadastro."
+    },
+    {
+        numero: 10,
+        texto: "Assinale a alternativa correta com relação a liberação de tabelas para a gestão dos Cadastros Gerais.",
+        opcoes: {
+            a: "Caso o usuário tenha cinco perfis e somente um contenha a tabela habilitada, ao acessar os Cadastros Gerais o sistema apresentará apenas as tabelas habilitadas para o perfil ativo no momento.",
+            b: "Caso o usuário possua mais de um perfil, é necessário habilitar a tabela em todos eles para que o acesso seja garantido.",
+            c: "Ao habilitar uma tabela para um perfil, automaticamente o sistema libera a tabela para todos os perfis que o usuário possui.",
+            d: "Caso o usuário possua mais de um perfil, não é necessário habilitar a tabela em todos eles. Basta que esteja habilitada em apenas um perfil para que o acesso seja garantido."
+        },
+        certa: "d",
+        expl: "Correta: Basta a tabela estar habilitada em um dos perfis do usuário para que o acesso seja liberado."
+    }
+];
+
+// ==============================================
+// PARTE 3 — FLUXO DE PACIENTE 2.0 (11 a 22)
 // ==============================================
 const fluxoPerguntas = [
     {
-        numero: 1,
+        numero: 11,
         texto: "Por meio de qual função do Tasy na plataforma HTML5 é possível realizar triagem e classificação?",
         opcoes: {
             a: "Entrada Única de Pacientes",
@@ -111,7 +268,7 @@ const fluxoPerguntas = [
         expl: "Correta: A triagem e classificação são feitas no PEP."
     },
     {
-        numero: 2,
+        numero: 12,
         texto: "Qual ação o médico do Pronto Atendimento pode realizar na função CPOE?",
         opcoes: {
             a: "Prescrever medicamentos",
@@ -123,7 +280,7 @@ const fluxoPerguntas = [
         expl: "Correta: CPOE é usada pelo médico para prescrever."
     },
     {
-        numero: 3,
+        numero: 13,
         texto: "Em relação à função ADEP, podemos afirmar que:",
         opcoes: {
             a: "É possível acessar esta função através do item ADEP no PEP",
@@ -135,7 +292,7 @@ const fluxoPerguntas = [
         expl: "Correta: A ADEP é acessível pelo PEP para a enfermagem conferir e administrar."
     },
     {
-        numero: 4,
+        numero: 14,
         texto: "Através de qual recurso HTML do Tasy é possível agendar uma consulta ambulatorial?",
         opcoes: {
             a: "Agenda de Serviços Ambulatoriais",
@@ -147,7 +304,7 @@ const fluxoPerguntas = [
         expl: "Correta: O agendamento é feito na função Agenda de Consultas."
     },
     {
-        numero: 5,
+        numero: 15,
         texto: "Selecione a sequência correta para o fluxo ambulatorial.",
         opcoes: {
             a: "Autorização → Agendamento → Avaliação",
@@ -159,7 +316,7 @@ const fluxoPerguntas = [
         expl: "Correta: Agendamento → Autorização do Convênio → Atendimento."
     },
     {
-        numero: 6,
+        numero: 16,
         texto: "Quais afirmações são verdadeiras? (Selecione TODAS as corretas)",
         multipla: true,
         opcoes: {
@@ -172,7 +329,7 @@ const fluxoPerguntas = [
         expl: "Corretas: A, C e D. B está errada: o agendamento é o padrão."
     },
     {
-        numero: 7,
+        numero: 17,
         texto: "Através de qual item no PEP é registrado preparo, saída e entrada na sala cirúrgica?",
         opcoes: {
             a: "Notas Clínicas",
@@ -184,7 +341,7 @@ const fluxoPerguntas = [
         expl: "Correta: Esses eventos são registrados em Tempos e Movimentos."
     },
     {
-        numero: 8,
+        numero: 18,
         texto: "O agendamento de procedimento cirúrgico é realizado na função:",
         opcoes: {
             a: "Gestão da Agenda Cirúrgica",
@@ -196,7 +353,7 @@ const fluxoPerguntas = [
         expl: "Correta: Agendamento cirúrgico é feito na Gestão da Agenda Cirúrgica."
     },
     {
-        numero: 9,
+        numero: 19,
         texto: "Sobre a CLEPA, assinale a alternativa correta:",
         opcoes: {
             a: "Confirmação de todos os profissionais antes de iniciar",
@@ -208,7 +365,7 @@ const fluxoPerguntas = [
         expl: "Correta: CLEPA = avaliação pré-anestésica + consentimento."
     },
     {
-        numero: 10,
+        numero: 20,
         texto: "Quais itens no PEP são comumente registrados pela enfermeira na internação?",
         opcoes: {
             a: "Dispositivos, Sinais Vitais, Plano de Cuidados e Notas Clínicas",
@@ -220,7 +377,7 @@ const fluxoPerguntas = [
         expl: "Correta: Prescrição e CPOE são do médico, não da enfermeira."
     },
     {
-        numero: 11,
+        numero: 21,
         texto: "Qual função mostra pacientes em internação em cards com leitos e informações dinâmicas?",
         opcoes: {
             a: "PEP",
@@ -232,7 +389,7 @@ const fluxoPerguntas = [
         expl: "Correta: O Painel Clínico mostra os pacientes em cards."
     },
     {
-        numero: 12,
+        numero: 22,
         texto: "Quais itens no PEP são comumente registrados pelo médico na internação?",
         opcoes: {
             a: "Dispositivos, Sinais Vitais, Plano de Cuidados",
@@ -246,12 +403,11 @@ const fluxoPerguntas = [
 ];
 
 // ==============================================
-// PARTE 2 — ADMINISTRAÇÃO DO SISTEMA (13 a 22)
-// GABARITO OFICIAL
+// PARTE 4 — ADMINISTRAÇÃO DO SISTEMA (23 a 32)
 // ==============================================
 const adminPerguntas = [
     {
-        numero: 13,
+        numero: 23,
         texto: "Dois repositórios exigem configuração obrigatória de local de armazenamento. Quais são eles?",
         opcoes: {
             a: "DEFAULT e TEMP",
@@ -263,7 +419,7 @@ const adminPerguntas = [
         expl: "Correta: DEFAULT (padrão) e TEMP (temporários) são obrigatórios."
     },
     {
-        numero: 14,
+        numero: 24,
         texto: "Qual é a principal utilidade do recurso Infobutton?",
         opcoes: {
             a: "Fornecer informações de parâmetros.",
@@ -275,7 +431,7 @@ const adminPerguntas = [
         expl: "Correta: Mostra o que preencher + descrição técnica do campo."
     },
     {
-        numero: 15,
+        numero: 25,
         texto: "Através de qual recurso o usuário acessa as funções do sistema?",
         opcoes: {
             a: "Perfis",
@@ -287,7 +443,7 @@ const adminPerguntas = [
         expl: "Correta: O Perfil define o que cada usuário pode acessar."
     },
     {
-        numero: 16,
+        numero: 26,
         texto: "Onde se configuram valores máximos e mínimos de Sinais Vitais com alertas?",
         opcoes: {
             a: "Parâmetros Assistenciais → Sinais Vitais",
@@ -299,7 +455,7 @@ const adminPerguntas = [
         expl: "Correta: Limites de Sinais Vitais são configurados em Itens PEPO."
     },
     {
-        numero: 17,
+        numero: 27,
         texto: "Onde é possível definir regra de armazenamento por Tabela e Atributo?",
         opcoes: {
             a: "Parâmetros → Computadores",
@@ -311,7 +467,7 @@ const adminPerguntas = [
         expl: "Correta: Repositório de Arquivos = regras específicas. Armazenamento = configuração geral."
     },
     {
-        numero: 18,
+        numero: 28,
         texto: "O que faz a opção Conversão Meio Externo?",
         opcoes: {
             a: "Configura troca de dados entre Tasy e sistemas externos.",
@@ -323,7 +479,7 @@ const adminPerguntas = [
         expl: "Correta: Serve para integração com outros sistemas."
     },
     {
-        numero: 19,
+        numero: 29,
         texto: "Onde se configuram os itens que aparecem no PEP por usuário?",
         opcoes: {
             a: "Administração do Sistema → Parâmetros",
@@ -335,7 +491,7 @@ const adminPerguntas = [
         expl: "Correta: A visualização é definida por Perfil → Itens Prontuário."
     },
     {
-        numero: 20,
+        numero: 30,
         texto: "O que se faz na aba Aplicação da Administração do Sistema?",
         opcoes: {
             a: "Gerenciar os perfis.",
@@ -347,7 +503,7 @@ const adminPerguntas = [
         expl: "Correta: A aba Aplicação serve para atualizar a versão do sistema."
     },
     {
-        numero: 21,
+        numero: 31,
         texto: "Onde definir se um campo é visível ou obrigatório?",
         opcoes: {
             a: "Parâmetros",
@@ -359,7 +515,7 @@ const adminPerguntas = [
         expl: "Correta: Visibilidade e obrigatoriedade → Atributos."
     },
     {
-        numero: 22,
+        numero: 32,
         texto: "Onde configurar permissões para dados sensíveis e exclusão de dados?",
         opcoes: {
             a: "Parâmetros Função",
@@ -375,9 +531,13 @@ const adminPerguntas = [
 // ==============================================
 // CONTROLE DE ESTADO
 // ==============================================
+let arquitetura = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
+let cadastros = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
 let fluxo = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
 let admin = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
 let dataHoraConclusao = "";
+const TOTAL_ARQUITETURA = arquiteturaPerguntas.length;
+const TOTAL_CADASTROS = cadastrosPerguntas.length;
 const TOTAL_FLUXO = fluxoPerguntas.length;
 const TOTAL_ADMIN = adminPerguntas.length;
 
@@ -385,22 +545,30 @@ const TOTAL_ADMIN = adminPerguntas.length;
 // INICIALIZAÇÃO
 // ==============================================
 function iniciarTudo() {
+    arquitetura = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
+    cadastros = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
     fluxo = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
     admin = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
     dataHoraConclusao = "";
     document.getElementById('resultado-geral').style.display = 'none';
 
+    const areaArquitetura = document.getElementById('area-arquitetura');
+    const areaCadastros = document.getElementById('area-cadastros');
     const areaFluxo = document.getElementById('area-fluxo');
     const areaAdmin = document.getElementById('area-admin');
+    areaArquitetura.innerHTML = '';
+    areaCadastros.innerHTML = '';
     areaFluxo.innerHTML = '';
     areaAdmin.innerHTML = '';
 
+    arquiteturaPerguntas.forEach(p => renderizar(p, areaArquitetura, 'R'));
+    cadastrosPerguntas.forEach(p => renderizar(p, areaCadastros, 'C'));
     fluxoPerguntas.forEach(p => renderizar(p, areaFluxo, 'F'));
     adminPerguntas.forEach(p => renderizar(p, areaAdmin, 'A'));
 }
 
 function renderizar(p, area, prefixo) {
-    const estado = prefixo === 'F' ? fluxo : admin;
+    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
     estado.selecoes[p.numero] = [];
 
     let html = `<div class="questao" id="q${prefixo}-${p.numero}">`;
@@ -426,7 +594,7 @@ function renderizar(p, area, prefixo) {
 // LÓGICA DE RESPOSTA
 // ==============================================
 function trocar(prefixo, numero, letra) {
-    const estado = prefixo === 'F' ? fluxo : admin;
+    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
     const idx = estado.selecoes[numero].indexOf(letra);
     const el = document.getElementById(`opt${prefixo}-${numero}-${letra}`);
     if (idx === -1) {
@@ -443,8 +611,8 @@ function verificarMultipla(prefixo, numero) {
     if (divQ.classList.contains('respondida')) return;
     divQ.classList.add('respondida');
 
-    const perguntas = prefixo === 'F' ? fluxoPerguntas : adminPerguntas;
-    const estado = prefixo === 'F' ? fluxo : admin;
+    const perguntas = prefixo === 'R' ? arquiteturaPerguntas : prefixo === 'C' ? cadastrosPerguntas : prefixo === 'F' ? fluxoPerguntas : adminPerguntas;
+    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
     const p = perguntas.find(x => x.numero === numero);
     const selecionadas = estado.selecoes[numero];
 
@@ -474,8 +642,8 @@ function verificarUnica(prefixo, numero, letraEscolhida) {
     divQ.classList.add('respondida');
     divQ.querySelectorAll('.alternativa').forEach(l => l.style.pointerEvents = 'none');
 
-    const perguntas = prefixo === 'F' ? fluxoPerguntas : adminPerguntas;
-    const estado = prefixo === 'F' ? fluxo : admin;
+    const perguntas = prefixo === 'R' ? arquiteturaPerguntas : prefixo === 'C' ? cadastrosPerguntas : prefixo === 'F' ? fluxoPerguntas : adminPerguntas;
+    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
     const p = perguntas.find(x => x.numero === numero);
     const acertou = letraEscolhida === p.certa;
     const respDiv = document.getElementById(`resp${prefixo}-${numero}`);
@@ -496,7 +664,10 @@ function verificarUnica(prefixo, numero, letraEscolhida) {
 }
 
 function verificarConcluido() {
-    if (fluxo.respondidas === TOTAL_FLUXO && admin.respondidas === TOTAL_ADMIN) {
+    if (arquitetura.respondidas === TOTAL_ARQUITETURA && 
+        cadastros.respondidas === TOTAL_CADASTROS && 
+        fluxo.respondidas === TOTAL_FLUXO && 
+        admin.respondidas === TOTAL_ADMIN) {
         const agora = new Date();
         dataHoraConclusao = agora.toLocaleString('pt-BR');
         mostrarResultadoGeral();
@@ -504,11 +675,13 @@ function verificarConcluido() {
 }
 
 function mostrarResultadoGeral() {
-    const totalGeral = TOTAL_FLUXO + TOTAL_ADMIN;
-    const acertoGeral = fluxo.acertos + admin.acertos;
+    const totalGeral = TOTAL_ARQUITETURA + TOTAL_CADASTROS + TOTAL_FLUXO + TOTAL_ADMIN;
+    const acertoGeral = arquitetura.acertos + cadastros.acertos + fluxo.acertos + admin.acertos;
     const porc = Math.round((acertoGeral / totalGeral) * 100);
 
     document.getElementById('data-hora-resultado').innerHTML = '📅 Concluído em: ' + dataHoraConclusao;
+    document.getElementById('acertos-arquitetura').textContent = arquitetura.acertos;
+    document.getElementById('acertos-cadastros').textContent = cadastros.acertos;
     document.getElementById('acertos-fluxo').textContent = fluxo.acertos;
     document.getElementById('acertos-admin').textContent = admin.acertos;
     document.getElementById('total-acertos').textContent = acertoGeral;
@@ -522,6 +695,22 @@ function mostrarResultadoGeral() {
     else if (porc >= 60) msg = '⚠️ Quase lá! Revise os erros e refaça.';
     else msg = '📚 Recomendado estudar mais antes da certificação.';
     document.getElementById('mensagem-geral').textContent = msg;
+
+    // Erros — Arquitetura
+    const listaArq = document.getElementById('lista-erros-arquitetura');
+    if (arquitetura.erros.length > 0) {
+        listaArq.innerHTML = arquitetura.erros.map(e => '• Q' + e.num + ': Você: ' + e.escolha + ' | Correta: ' + e.certa).join('<br>');
+    } else {
+        listaArq.innerHTML = 'Nenhum erro! 🎉';
+    }
+
+    // Erros — Cadastros
+    const listaCad = document.getElementById('lista-erros-cadastros');
+    if (cadastros.erros.length > 0) {
+        listaCad.innerHTML = cadastros.erros.map(e => '• Q' + e.num + ': Você: ' + e.escolha + ' | Correta: ' + e.certa).join('<br>');
+    } else {
+        listaCad.innerHTML = 'Nenhum erro! 🎉';
+    }
 
     // Erros — Fluxo
     const listaFluxo = document.getElementById('lista-erros-fluxo');
@@ -545,12 +734,30 @@ function mostrarResultadoGeral() {
 }
 
 // ==============================================
-// ENVIAR PELO WHATSAPP — VERSÃO CORRIGIDA
+// ENVIAR PELO WHATSAPP
 // ==============================================
 function enviarWhatsApp() {
-    const totalGeral = TOTAL_FLUXO + TOTAL_ADMIN;
-    const acertoGeral = fluxo.acertos + admin.acertos;
+    const totalGeral = TOTAL_ARQUITETURA + TOTAL_CADASTROS + TOTAL_FLUXO + TOTAL_ADMIN;
+    const acertoGeral = arquitetura.acertos + cadastros.acertos + fluxo.acertos + admin.acertos;
     const porc = Math.round((acertoGeral / totalGeral) * 100);
+
+    let errosArq = '';
+    if (arquitetura.erros.length > 0) {
+        arquitetura.erros.forEach(e => {
+            errosArq += '- Q' + e.num + ': Você ' + e.escolha + ' | Correta ' + e.certa + '\n';
+        });
+    } else {
+        errosArq = '- Nenhum erro!';
+    }
+
+    let errosCad = '';
+    if (cadastros.erros.length > 0) {
+        cadastros.erros.forEach(e => {
+            errosCad += '- Q' + e.num + ': Você ' + e.escolha + ' | Correta ' + e.certa + '\n';
+        });
+    } else {
+        errosCad = '- Nenhum erro!';
+    }
 
     let errosFluxoTexto = '';
     if (fluxo.erros.length > 0) {
@@ -577,9 +784,11 @@ function enviarWhatsApp() {
     else msg = 'Estude mais antes da prova.';
 
     const mensagem = 
-'Resultado Quiz Tasy\n' +
+'Resultado Quiz Tasy Completo\n' +
 'Data: ' + dataHoraConclusao + '\n' +
 '\n' +
+'Arquitetura: ' + arquitetura.acertos + '/5\n' +
+'Cadastros Gerais: ' + cadastros.acertos + '/5\n' +
 'Fluxo de Paciente: ' + fluxo.acertos + '/12\n' +
 'Administracao: ' + admin.acertos + '/10\n' +
 'TOTAL: ' + acertoGeral + '/' + totalGeral + '\n' +
@@ -587,6 +796,10 @@ function enviarWhatsApp() {
 '\n' +
 msg + '\n' +
 '\n' +
+'--- Erros Arquitetura ---\n' +
+errosArq + '\n' +
+'--- Erros Cadastros ---\n' +
+errosCad + '\n' +
 '--- Erros Fluxo ---\n' +
 errosFluxoTexto + '\n' +
 '--- Erros Administracao ---\n' +
