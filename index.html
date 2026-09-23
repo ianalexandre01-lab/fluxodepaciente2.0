@@ -3,813 +3,842 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Tasy — Estudo Completo</title>
+    <title>Estudo Completo — Tasy</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: #f0f4f8; padding: 20px; line-height: 1.6; }
-        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 30px; }
-        h1 { text-align: center; color: #0b3d5f; margin-bottom: 5px; font-size: 22px; }
-        h2 { color: #0b3d5f; font-size: 18px; margin: 10px 0 20px; }
-        .subtitulo { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
-        .botoes { text-align: center; margin-bottom: 25px; }
-        .btn { background: #0066cc; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 15px; margin: 5px; }
-        .btn:hover { background: #0052a3; }
-        .btn-principal { background: #28a745; font-size: 16px; padding: 12px 25px; }
-        .btn-principal:hover { background: #218838; }
-        .btn-whatsapp { background: #25D366; color: white; font-size: 16px; padding: 12px 25px; margin-top: 15px; font-weight: bold; }
-        .btn-whatsapp:hover { background: #1fb859; }
-        .questao { border: 1px solid #d0dce8; border-radius: 10px; padding: 20px; margin-bottom: 25px; background: #f8fbfd; }
-        .enunciado { font-size: 14px; font-weight: bold; color: #1a3b54; margin-bottom: 15px; line-height: 1.5; }
-        .alternativa { display: block; padding: 12px; margin: 8px 0; border-radius: 6px; border: 2px solid #b8c9d9; cursor: pointer; transition: 0.2s; font-size: 14px; }
-        .alternativa:hover { background: #e8f1f8; }
-        .alternativa.selecionada { border-color: #0066cc; background: #eaf4fc; }
-        .resposta { margin-top: 15px; padding: 15px; border-radius: 6px; display: none; font-size: 14px; }
-        .resposta-correta { background: #e6f9e9; border: 2px solid #28a745; color: #155724; }
-        .resposta-errada { background: #fdeeee; border: 2px solid #dc3545; color: #721c24; }
-        .painel-pontos { background: #eaf4fc; border-left: 5px solid #0066cc; padding: 25px; margin-top: 30px; border-radius: 8px; display: none; }
-        .dados-resultado { font-size: 17px; margin: 10px 0; line-height: 2; }
-        .data-hora { color: #555; font-size: 14px; margin-bottom: 15px; font-weight: bold; }
-        .barra-progresso { height: 16px; background: #e0e0e0; border-radius: 8px; margin: 15px 0; overflow: hidden; }
-        .barra-preenchida { height: 100%; border-radius: 8px; width: 0%; transition: width 0.6s ease; }
-        .lista-erros { margin-top: 20px; padding: 18px; background: #fff3cd; border-radius: 8px; display: none; }
-        .grupo-erros { margin-bottom: 15px; }
-        .aviso-multipla { color: #0066cc; font-size: 13px; margin-bottom: 10px; }
-        .btn-confirma { background: #ff9800; margin-top: 12px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        body { background: #f8f9fa; padding: 24px; line-height: 1.6; }
+        .container { max-width: 820px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 32px; }
+        
+        h1 { text-align: center; color: #2c3e50; font-size: 22px; margin-bottom: 4px; }
+        .subtitulo { text-align: center; color: #6c757d; font-size: 14px; margin-bottom: 24px; }
+        
+        .botao-iniciar { text-align: center; margin-bottom: 32px; }
+        .btn-iniciar { 
+            background: #28a745; color: white; border: none; padding: 10px 24px; border-radius: 6px; 
+            font-size: 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-iniciar:hover { background: #218838; }
+        
+        .parte { margin-bottom: 36px; }
+        .titulo-parte { 
+            font-size: 16px; color: #2c3e50; padding-bottom: 6px; border-bottom: 1px solid #e9ecef; 
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+        }
+        .subtitulo-parte { color: #6c757d; font-size: 13px; margin-bottom: 16px; }
+        
+        .questao { 
+            background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; 
+            margin-bottom: 16px; transition: all 0.2s;
+        }
+        .enunciado { font-size: 15px; color: #2c3e50; margin-bottom: 16px; font-weight: 500; }
+        
+        .alternativa { 
+            display: block; padding: 12px 14px; margin: 8px 0; background: #fff; 
+            border: 1px solid #dee2e6; border-radius: 6px; cursor: pointer; 
+            font-size: 14px; color: #343a40; transition: all 0.2s;
+        }
+        .alternativa:hover { border-color: #adb5bd; background: #f8f9fa; }
+        .alternativa.selecionada { border-color: #007bff; background: #e7f1ff; }
+        
+        .resposta { margin-top: 14px; padding: 14px; border-radius: 6px; display: none; font-size: 14px; }
+        .resposta-correta { background: #e6f9e9; border: 1px solid #28a745; color: #155724; }
+        .resposta-errada { background: #fdeeee; border: 1px solid #dc3545; color: #721c24; }
+        
+        .aviso-multipla { color: #0066cc; font-size: 13px; margin-bottom: 10px; font-style: italic; }
+        .btn-confirma { background: #ff9800; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 8px; font-size: 14px; }
         .btn-confirma:hover { background: #e67e00; }
         .respondida { opacity: 0.7; pointer-events: none; }
-        .divisor { border: none; border-top: 3px dashed #ccc; margin: 40px 0; }
+        
+        .resultado { 
+            margin-top: 32px; padding: 24px; background: #f0f4f8; border-radius: 8px; display: none;
+        }
+        .resultado h2 { font-size: 18px; color: #2c3e50; margin-bottom: 16px; }
+        .linha-resultado { margin: 8px 0; font-size: 15px; }
+        .barra { height: 12px; background: #e9ecef; border-radius: 6px; margin: 16px 0; overflow: hidden; }
+        .barra-interna { height: 100%; border-radius: 6px; width: 0%; transition: width 0.6s ease; }
+        .btn-whatsapp { 
+            background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 6px; 
+            font-size: 15px; cursor: pointer; margin-top: 16px; font-weight: 500;
+        }
+        .btn-whatsapp:hover { background: #1fb859; }
+        .erros { margin-top: 16px; padding: 16px; background: #fff3cd; border-radius: 6px; display: none; font-size: 14px; }
+        .erro-item { margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>📚 Estudo Completo — Tasy</h1>
-    <p class="subtitulo">Arquitetura • Cadastros Gerais • Fluxo de Paciente • Administração do Sistema ✅</p>
+    <p class="subtitulo">Overview • Arquitetura • Cadastros Gerais • Fluxo de Paciente • Administração do Sistema ✅</p>
 
-    <div class="botoes">
-        <button class="btn btn-principal" onclick="iniciarTudo()">🔄 Iniciar / Reiniciar Prova</button>
+    <div class="botao-iniciar">
+        <button class="btn-iniciar" onclick="iniciarTudo()">🔄 Iniciar / Reiniciar Prova</button>
     </div>
 
-    <!-- ========== PARTE 1: ARQUITETURA TECNOLÓGICA — 1 a 5 ========== -->
-    <h2>🏗️ Parte 1 — Arquitetura Tecnológica</h2>
-    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 1 a 5</p>
-    <div id="area-arquitetura"></div>
+    <!-- PARTE 1 -->
+    <div class="parte">
+        <h2 class="titulo-parte">📄 Parte 1 — Cadastros Gerais</h2>
+        <p class="subtitulo-parte">Questões 1 a 5</p>
+        <div id="area-cadastros"></div>
+    </div>
 
-    <hr class="divisor">
+    <!-- PARTE 2 -->
+    <div class="parte">
+        <h2 class="titulo-parte">📖 Parte 2 — Overview Tasy (HTML5)</h2>
+        <p class="subtitulo-parte">Questões 6 a 14</p>
+        <div id="area-overview"></div>
+    </div>
 
-    <!-- ========== PARTE 2: CADASTROS GERAIS — 6 a 10 ========== -->
-    <h2>📋 Parte 2 — Cadastros Gerais</h2>
-    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 6 a 10</p>
-    <div id="area-cadastros"></div>
+    <!-- PARTE 3 -->
+    <div class="parte">
+        <h2 class="titulo-parte">🏗️ Parte 3 — Arquitetura Tecnológica</h2>
+        <p class="subtitulo-parte">Questões 15 a 19</p>
+        <div id="area-arquitetura"></div>
+    </div>
 
-    <hr class="divisor">
+    <!-- PARTE 4 -->
+    <div class="parte">
+        <h2 class="titulo-parte">🏥 Parte 4 — Fluxo de Paciente 2.0</h2>
+        <p class="subtitulo-parte">Questões 20 a 31</p>
+        <div id="area-fluxo"></div>
+    </div>
 
-    <!-- ========== PARTE 3: FLUXO DE PACIENTE — 11 a 22 ========== -->
-    <h2>🏥 Parte 3 — Fluxo de Paciente 2.0</h2>
-    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 11 a 22</p>
-    <div id="area-fluxo"></div>
+    <!-- PARTE 5 -->
+    <div class="parte">
+        <h2 class="titulo-parte">⚙️ Parte 5 — Administração do Sistema</h2>
+        <p class="subtitulo-parte">Questões 32 a 41</p>
+        <div id="area-admin"></div>
+    </div>
 
-    <hr class="divisor">
-
-    <!-- ========== PARTE 4: ADMINISTRAÇÃO — 23 a 32 ========== -->
-    <h2>⚙️ Parte 4 — Administração do Sistema</h2>
-    <p style="color:#666; font-size:13px; margin-bottom:15px;">Questões 23 a 32</p>
-    <div id="area-admin"></div>
-
-    <!-- ========== RESULTADO GERAL ========== -->
-    <div class="painel-pontos" id="resultado-geral">
+    <!-- RESULTADO -->
+    <div class="resultado" id="resultado-geral">
         <h2>📊 Resultado Geral</h2>
-        <p class="data-hora" id="data-hora-resultado"></p>
-        <div class="dados-resultado">
-            <strong>🏗️ Arquitetura Tecnológica (1–5):</strong> <span id="acertos-arquitetura">0</span>/5<br>
-            <strong>📋 Cadastros Gerais (6–10):</strong> <span id="acertos-cadastros">0</span>/5<br>
-            <strong>🏥 Fluxo de Paciente (11–22):</strong> <span id="acertos-fluxo">0</span>/12<br>
-            <strong>⚙️ Administração do Sistema (23–32):</strong> <span id="acertos-admin">0</span>/10<br>
-            <hr style="margin:8px 0;">
-            <strong>✅ TOTAL DE ACERTOS:</strong> <span id="total-acertos">0</span>/32<br>
-            <strong>📈 Porcentagem Geral:</strong> <span id="porc-geral">0</span>%
-        </div>
-        <div class="barra-progresso">
-            <div class="barra-preenchida" id="barra-geral"></div>
-        </div>
-        <p id="mensagem-geral" style="margin-top:15px; font-weight:bold; font-size:16px;"></p>
+        <p style="color:#6c757d; font-size:14px; margin-bottom:16px;" id="data-hora"></p>
         
-        <button class="btn btn-whatsapp" id="btn-whats" onclick="enviarWhatsApp()">📱 Enviar Resultado pelo WhatsApp</button>
-
-        <div class="lista-erros" id="todos-erros">
-            <div class="grupo-erros">
-                <strong>🏗️ Revisar — Arquitetura Tecnológica:</strong><br>
-                <span id="lista-erros-arquitetura">Nenhum erro! 🎉</span>
-            </div>
-            <div class="grupo-erros">
-                <strong>📋 Revisar — Cadastros Gerais:</strong><br>
-                <span id="lista-erros-cadastros">Nenhum erro! 🎉</span>
-            </div>
-            <div class="grupo-erros">
-                <strong>🏥 Revisar — Fluxo de Paciente:</strong><br>
-                <span id="lista-erros-fluxo">Nenhum erro! 🎉</span>
-            </div>
-            <div class="grupo-erros">
-                <strong>⚙️ Revisar — Administração do Sistema:</strong><br>
-                <span id="lista-erros-admin">Nenhum erro! 🎉</span>
-            </div>
+        <div class="linha-resultado"><strong>📄 Cadastros Gerais (1–5):</strong> <span id="ac-cad">0</span>/5</div>
+        <div class="linha-resultado"><strong>📖 Overview (6–14):</strong> <span id="ac-over">0</span>/9</div>
+        <div class="linha-resultado"><strong>🏗️ Arquitetura (15–19):</strong> <span id="ac-arq">0</span>/5</div>
+        <div class="linha-resultado"><strong>🏥 Fluxo de Paciente (20–31):</strong> <span id="ac-flu">0</span>/12</div>
+        <div class="linha-resultado"><strong>⚙️ Administração (32–41):</strong> <span id="ac-adm">0</span>/10</div>
+        <hr style="margin:12px 0; border:none; border-top:1px solid #dee2e6;">
+        <div class="linha-resultado"><strong>✅ Total:</strong> <span id="ac-total">0</span>/41 — <span id="porc">0</span>%</div>
+        
+        <div class="barra"><div class="barra-interna" id="barra-progresso"></div></div>
+        <p id="mensagem-final" style="font-weight:500; margin-top:8px;"></p>
+        
+        <button class="btn-whatsapp" onclick="enviarWhatsApp()">📱 Enviar Resultado pelo WhatsApp</button>
+        
+        <div class="erros" id="caixa-erros">
+            <p style="font-weight:500; margin-bottom:8px;">📋 Questões para revisar:</p>
+            <div id="lista-erros"></div>
         </div>
     </div>
 </div>
 
 <script>
-// ==============================================
-// PARTE 1 — ARQUITETURA TECNOLÓGICA (1 a 5)
-// ==============================================
-const arquiteturaPerguntas = [
+// ============= DADOS DAS PERGUNTAS =============
+const cadastros = [
     {
         numero: 1,
-        texto: "Sobre a arquitetura do Tasy, marque as opções corretas referentes aos benefícios de termos mais de um servidor de aplicação nas plataformas Java e HTML.",
-        multipla: true,
-        opcoes: {
-            a: "Performance.",
-            b: "Escalabilidade.",
-            c: "Desempenho.",
-            d: "Insegurança."
-        },
-        certas: ["a", "b", "c"],
-        expl: "Corretas: A, B e C. Múltiplos servidores garantem melhor desempenho, performance e escalabilidade. 'Insegurança' não é um benefício."
-    },
-    {
-        numero: 2,
-        texto: "Qual o driver utilizado pelo Tasy Delphi para conexão com o banco de dados?",
-        opcoes: {
-            a: "RMD.",
-            b: "JODBC.",
-            c: "BDE.",
-            d: "KDE."
-        },
-        certa: "c",
-        expl: "Correta: O Tasy Delphi utiliza o BDE (Borland Database Engine) como driver de conexão."
-    },
-    {
-        numero: 3,
-        texto: "Com mais de um servidor de aplicação, qual recurso identifica qual servidor deve receber cada requisição do usuário, distribuindo as conexões?",
-        opcoes: {
-            a: "Firewall.",
-            b: "Balanceador de Cargas.",
-            c: "Servidor de Arquivos.",
-            d: "Banco de Dados."
-        },
-        certa: "b",
-        expl: "Correta: O Balanceador de Cargas distribui as requisições entre os servidores disponíveis, escolhendo o melhor para cada solicitação."
-    },
-    {
-        numero: 4,
-        texto: "De acordo com a arquitetura do Tasy, como é identificada a forma de conexão com o banco de dados?",
-        opcoes: {
-            a: "Cliente - Fornecedor.",
-            b: "Cliente - Servidor.",
-            c: "Cliente - Software.",
-            d: "Cliente - Desenvolvedor."
-        },
-        certa: "b",
-        expl: "Correta: A arquitetura do Tasy segue o modelo Cliente-Servidor."
-    },
-    {
-        numero: 5,
-        texto: "Na arquitetura do Tasy, em qual camada são encontrados os dicionários de objetos, dados e idiomas?",
-        opcoes: {
-            a: "Clientes.",
-            b: "Integração.",
-            c: "Servidor.",
-            d: "Banco de dados."
-        },
-        certa: "d",
-        expl: "Correta: Os dicionários de objetos, dados e idiomas ficam armazenados na camada do Banco de Dados."
-    }
-];
-
-// ==============================================
-// PARTE 2 — CADASTROS GERAIS (6 a 10)
-// ==============================================
-const cadastrosPerguntas = [
-    {
-        numero: 6,
         texto: "Com relação aos Cadastros Gerais, assinale a alternativa correta.",
         opcoes: {
             a: "Uma vez liberada determinada tabela dos Cadastros Gerais, não é possível configurar permissão que irá restringir entre consulta e edição.",
             b: "Todos os Cadastros utilizados no sistema podem ser criados ou editados pela instituição nos Cadastros Gerais.",
             c: "Os Cadastros Gerais se restringem ao cadastro de informações que serão visíveis ao usuário para seleção, não estão relacionados a regras e comportamentos do sistema.",
-            d: "Nem todos os cadastros podem ser criados ou editados pela instituição nos Cadastros Gerais. Alguns são de propriedade da Philips, que realiza sua manutenção e atualização."
+            d: "Nem todos os cadastros podem ser criados ou editados pela instituição nos Cadastros Gerais. Alguns são de propriedade da Philips, que realiza a manutenção e atualização."
         },
         certa: "d",
-        expl: "Correta: A instituição gerencia parte dos cadastros, mas alguns são de propriedade e mantidos pela Philips — não podem ser alterados pela instituição."
+        expl: "Correta: Alguns cadastros são padrão da Philips e só ela os altera. A instituição gerencia os seus próprios."
     },
     {
-        numero: 7,
+        numero: 2,
         texto: "De quem é a responsabilidade da manutenção dos Cadastros Gerais da instituição?",
         opcoes: {
             a: "A Philips é responsável.",
             b: "Cada instituição é responsável pela manutenção dos seus Cadastros Gerais.",
             c: "De qualquer usuário que acesse o sistema.",
-            d: "A responsabilidade é tanto da Philips como da instituição."
+            d: "Do fornecedor do sistema."
         },
         certa: "b",
-        expl: "Correta: A instituição é responsável por manter seus próprios cadastros, conforme suas necessidades e realidade."
+        expl: "Correta: A instituição é responsável por manter os seus próprios cadastros."
+    },
+    {
+        numero: 3,
+        texto: "Como o usuário pode acessar e consultar os Cadastros Gerais?",
+        opcoes: {
+            a: "Através do cadastro de Usuário e Perfil.",
+            b: "Pelo utilitário Cadastros Gerais e também pelo campo 'item Cadastros Gerais' nas funções.",
+            c: "Somente pelo suporte da Philips.",
+            d: "Através dos Parâmetros Assistenciais."
+        },
+        certa: "b",
+        expl: "Correta: Existem duas formas principais — pelo utilitário direto e pelo campo nas funções."
+    },
+    {
+        numero: 4,
+        texto: "Qual recurso permite consultar a qual tabela e atributo um campo se refere?",
+        opcoes: {
+            a: "Relatórios do sistema.",
+            b: "O ícone de informação (Infobutton).",
+            c: "Manual impresso.",
+            d: "Consulta com o administrador de rede."
+        },
+        certa: "b",
+        expl: "Correta: O Infobutton mostra detalhes técnicos do campo, tabela e atributo."
+    },
+    {
+        numero: 5,
+        texto: "Sobre a liberação de tabelas dos Cadastros Gerais em perfis de usuário, assinale o correto:",
+        opcoes: {
+            a: "Deve estar liberada em todos os perfis do usuário.",
+            b: "Basta estar liberada em apenas um dos perfis para o usuário ter acesso.",
+            c: "O usuário precisa acessar pelo perfil principal sempre.",
+            d: "A liberação é feita por departamento, não por perfil."
+        },
+        certa: "b",
+        expl: "Correta: Liberando em um perfil, o usuário já consegue acessar."
+    }
+];
+
+const overview = [
+    {
+        numero: 6,
+        texto: "Quem define os perfis de acesso no sistema Tasy?",
+        opcoes: {
+            a: "A Philips na instalação.",
+            b: "A própria instituição de acordo com sua estrutura.",
+            c: "O Ministério da Saúde.",
+            d: "O administrador de rede apenas."
+        },
+        certa: "b",
+        expl: "Correta: A instituição cria e organiza os perfis conforme sua necessidade."
+    },
+    {
+        numero: 7,
+        texto: "O que é o SUEP — Sumário Eletrônico do Paciente?",
+        opcoes: {
+            a: "Relatório financeiro do paciente.",
+            b: "Conjunto consolidado de informações clínicas do paciente.",
+            c: "Ficha de cadastro de convênio.",
+            d: "Contato de emergência."
+        },
+        certa: "b",
+        expl: "Correta: Reúne informações de saúde do paciente de forma centralizada."
     },
     {
         numero: 8,
-        texto: "Assinale a alternativa correta sobre como acessar os Cadastros Gerais.",
+        texto: "O sistema Tasy integra três elementos fundamentais. São eles:",
         opcoes: {
-            a: "Através do cadastro do Usuário e do cadastro do Perfil.",
-            b: "Através do utilitário Cadastros Gerais e Parâmetros Assistenciais.",
-            c: "Através do utilitário Cadastros Gerais e através da informação do campo item Cadastros Gerais.",
-            d: "Administração do Sistema e através da informação do campo item Cadastros Gerais."
+            a: "Pessoas, Processos e Informações.",
+            b: "Médicos, Enfermeiros e Administradores.",
+            c: "Entrada, Processamento e Saída.",
+            d: "Dados, Sistemas e Usuários."
         },
-        certa: "c",
-        expl: "Correta: O acesso se dá pelo utilitário Cadastros Gerais e também pelo campo 'item Cadastros Gerais' presente nas funções."
+        certa: "a",
+        expl: "Correta: A integração fundamental é entre PESSOAS, PROCESSOS e INFORMAÇÕES."
     },
     {
         numero: 9,
-        texto: "Por meio de qual recurso o usuário pode consultar a tabela correspondente a determinado cadastro?",
+        texto: "Qual função centraliza o registro de todos os atendimentos?",
         opcoes: {
-            a: "Por meio dos parâmetros da função correspondente.",
-            b: "Por meio do ícone de informação de determinado campo.",
-            c: "Por meio de relatórios.",
-            d: "Através de abertura de Ordem de Serviço."
+            a: "Agenda de Consultas.",
+            b: "Entrada Única de Paciente.",
+            c: "Prontuário Eletrônico.",
+            d: "Painel de Chamada."
         },
         certa: "b",
-        expl: "Correta: O ícone de informação (Infobutton) do campo exibe a tabela e atributo correspondentes daquele cadastro."
+        expl: "Correta: É a porta de entrada para todos os tipos de atendimento."
     },
     {
         numero: 10,
-        texto: "Assinale a alternativa correta com relação a liberação de tabelas para a gestão dos Cadastros Gerais.",
+        texto: "O que o Dashboard apresenta?",
         opcoes: {
-            a: "Caso o usuário tenha cinco perfis e somente um contenha a tabela habilitada, ao acessar os Cadastros Gerais o sistema apresentará apenas as tabelas habilitadas para o perfil ativo no momento.",
-            b: "Caso o usuário possua mais de um perfil, é necessário habilitar a tabela em todos eles para que o acesso seja garantido.",
-            c: "Ao habilitar uma tabela para um perfil, automaticamente o sistema libera a tabela para todos os perfis que o usuário possui.",
-            d: "Caso o usuário possua mais de um perfil, não é necessário habilitar a tabela em todos eles. Basta que esteja habilitada em apenas um perfil para que o acesso seja garantido."
-        },
-        certa: "d",
-        expl: "Correta: Basta a tabela estar habilitada em um dos perfis do usuário para que o acesso seja liberado."
-    }
-];
-
-// ==============================================
-// PARTE 3 — FLUXO DE PACIENTE 2.0 (11 a 22)
-// ==============================================
-const fluxoPerguntas = [
-    {
-        numero: 11,
-        texto: "Por meio de qual função do Tasy na plataforma HTML5 é possível realizar triagem e classificação?",
-        opcoes: {
-            a: "Entrada Única de Pacientes",
-            b: "Prontuário Eletrônico do Paciente – PEP",
-            c: "CPOE",
-            d: "Administração Eletrônica da Prescrição – ADEP"
+            a: "A lista de pacientes do dia.",
+            b: "Indicadores e métricas de gestão.",
+            c: "Os prontuários pendentes de assinatura.",
+            d: "A escala de funcionários."
         },
         certa: "b",
-        expl: "Correta: A triagem e classificação são feitas no PEP."
+        expl: "Correta: Mostra gráficos e indicadores para gestão."
+    },
+    {
+        numero: 11,
+        texto: "Sobre a integração entre as funções do Tasy, é correto afirmar:",
+        opcoes: {
+            a: "Cada função funciona de forma independente e isolada.",
+            b: "As funções compartilham dados e informações entre si.",
+            c: "Apenas a área financeira tem acesso aos dados clínicos.",
+            d: "Os dados ficam no computador de cada usuário."
+        },
+        certa: "b",
+        expl: "Correta: O Tasy é um sistema integrado — as funções conversam entre si."
     },
     {
         numero: 12,
-        texto: "Qual ação o médico do Pronto Atendimento pode realizar na função CPOE?",
+        texto: "Como é realizado o acesso do usuário ao sistema?",
         opcoes: {
-            a: "Prescrever medicamentos",
-            b: "Administrar medicamentos",
-            c: "Aplicar uma escala",
-            d: "Gerenciar procedimentos"
+            a: "Com usuário e senha individuais.",
+            b: "Com uma senha compartilhada por todos.",
+            c: "Apenas pelo departamento.",
+            d: "Sem senha, é aberto."
         },
         certa: "a",
-        expl: "Correta: CPOE é usada pelo médico para prescrever."
+        expl: "Correta: Cada usuário tem seu próprio login e senha intransferíveis."
     },
     {
         numero: 13,
-        texto: "Em relação à função ADEP, podemos afirmar que:",
+        texto: "Qual função é usada para triagem e classificação de risco do paciente?",
         opcoes: {
-            a: "É possível acessar esta função através do item ADEP no PEP",
-            b: "É usado principalmente por usuários médicos para prescrever",
-            c: "Permite prescrever e administrar soluções e medicamentos",
-            d: "Permite realizar a triagem de enfermagem"
+            a: "Entrada Única.",
+            b: "Prontuário Eletrônico do Paciente — PEP.",
+            c: "Agenda de Consultas.",
+            d: "Painel de Internação."
         },
-        certa: "a",
-        expl: "Correta: A ADEP é acessível pelo PEP para a enfermagem conferir e administrar."
+        certa: "b",
+        expl: "Correta: A triagem é feita dentro do PEP."
     },
     {
         numero: 14,
-        texto: "Através de qual recurso HTML do Tasy é possível agendar uma consulta ambulatorial?",
+        texto: "O que significa a sigla CPOE?",
         opcoes: {
-            a: "Agenda de Serviços Ambulatoriais",
-            b: "Agenda Ambulatorial",
-            c: "Agenda de Consultas",
-            d: "Agenda Integrada"
+            a: "Sistema de agendamento de consultas.",
+            b: "Prescrição Eletrônica Assistida por Computador.",
+            c: "Controle de prontuários eletrônicos.",
+            d: "Cadastro de profissionais."
         },
-        certa: "c",
-        expl: "Correta: O agendamento é feito na função Agenda de Consultas."
-    },
+        certa: "b",
+        expl: "Correta: É onde o médico faz a prescrição digital."
+    }
+];
+
+const arquitetura = [
     {
         numero: 15,
-        texto: "Selecione a sequência correta para o fluxo ambulatorial.",
+        texto: "Quais são os benefícios de utilizar múltiplos servidores de aplicação?",
+        multipla: true,
         opcoes: {
-            a: "Autorização → Agendamento → Avaliação",
-            b: "Agendamento → Avaliação → Autorização",
-            c: "Agendamento → Fórmula → Farmácia",
-            d: "Agendamento → Autorização de Convênio → Avaliação Médica"
+            a: "Melhor distribuição da carga de trabalho.",
+            b: "Maior disponibilidade do sistema.",
+            c: "Melhor desempenho para os usuários.",
+            d: "Redução do espaço físico ocupado."
         },
-        certa: "d",
-        expl: "Correta: Agendamento → Autorização do Convênio → Atendimento."
+        certas: ["a", "b", "c"],
+        expl: "Corretas: A, B e C. Mais servidores = mais performance, disponibilidade e distribuição."
     },
     {
         numero: 16,
-        texto: "Quais afirmações são verdadeiras? (Selecione TODAS as corretas)",
-        multipla: true,
+        texto: "Qual é a arquitetura básica do sistema Tasy?",
         opcoes: {
-            a: "O número de atendimento é obrigatório para registrar dados no prontuário.",
-            b: "Não é necessário agendar, pode chegar e ser atendido.",
-            c: "No final do atendimento, o médico pode prescrever receita e emitir atestado.",
-            d: "Para consultas ambulatoriais não é necessário autorização do convênio."
+            a: "Arquitetura monolítica.",
+            b: "Cliente-Servidor.",
+            c: "Apenas na nuvem.",
+            d: "Aplicativo local."
         },
-        certas: ["a", "c", "d"],
-        expl: "Corretas: A, C e D. B está errada: o agendamento é o padrão."
+        certa: "b",
+        expl: "Correta: Segue o modelo Cliente-Servidor."
     },
     {
         numero: 17,
-        texto: "Através de qual item no PEP é registrado preparo, saída e entrada na sala cirúrgica?",
+        texto: "O que faz o Balanceador de Cargas?",
         opcoes: {
-            a: "Notas Clínicas",
-            b: "Dispositivos",
-            c: "Tempos e Movimentos",
-            d: "Cirurgia — Resumo"
+            a: "Armazena os dados do banco.",
+            b: "Distribui as requisições entre os servidores de aplicação.",
+            c: "Protege contra vírus.",
+            d: "Faz o backup dos arquivos."
         },
-        certa: "c",
-        expl: "Correta: Esses eventos são registrados em Tempos e Movimentos."
+        certa: "b",
+        expl: "Correta: Ele divide o acesso para nenhum servidor sobrecarregar."
     },
     {
         numero: 18,
-        texto: "O agendamento de procedimento cirúrgico é realizado na função:",
+        texto: "Onde ficam armazenados os dicionários de dados, objetos e configurações do sistema?",
         opcoes: {
-            a: "Gestão da Agenda Cirúrgica",
-            b: "Entrada Única de Pacientes",
-            c: "PEP",
-            d: "Agenda de Consultas"
+            a: "No servidor de aplicação.",
+            b: "No banco de dados.",
+            c: "No computador de cada usuário.",
+            d: "Na internet."
         },
-        certa: "a",
-        expl: "Correta: Agendamento cirúrgico é feito na Gestão da Agenda Cirúrgica."
+        certa: "b",
+        expl: "Correta: Tudo fica centralizado no banco de dados."
     },
     {
         numero: 19,
-        texto: "Sobre a CLEPA, assinale a alternativa correta:",
+        texto: "Qual componente é responsável pela conexão entre o cliente e o banco de dados na versão Delphi?",
         opcoes: {
-            a: "Confirmação de todos os profissionais antes de iniciar",
-            b: "Registra avaliação pré-anestésica e o procedimento só inicia após consentimento",
-            c: "Avalia dificuldades de intubação",
-            d: "Monitora sinais vitais durante o procedimento"
+            a: "ODBC.",
+            b: "BDE — Borland Database Engine.",
+            c: "JBDC.",
+            d: "XML."
         },
         certa: "b",
-        expl: "Correta: CLEPA = avaliação pré-anestésica + consentimento."
-    },
+        expl: "Correta: O BDE é o motor de conexão nativo da versão Delphi."
+    }
+];
+
+const fluxo = [
     {
         numero: 20,
-        texto: "Quais itens no PEP são comumente registrados pela enfermeira na internação?",
+        texto: "O que a ADEP permite que a enfermagem faça?",
         opcoes: {
-            a: "Dispositivos, Sinais Vitais, Plano de Cuidados e Notas Clínicas",
-            b: "Prescrição, Plano de Cuidados, Diagnóstico e CPOE",
-            c: "Balanço Hídrico, CPOE e Sinais Vitais",
-            d: "Diagnóstico, CPOE, Receitas e Atestados"
+            a: "Prescrever medicamentos.",
+            b: "Conferir e administrar a prescrição do médico.",
+            c: "Agendar consultas.",
+            d: "Alterar diagnóstico."
         },
-        certa: "a",
-        expl: "Correta: Prescrição e CPOE são do médico, não da enfermeira."
+        certa: "b",
+        expl: "Correta: Confere, valida e registra a administração."
     },
     {
         numero: 21,
-        texto: "Qual função mostra pacientes em internação em cards com leitos e informações dinâmicas?",
+        texto: "Onde é feito o agendamento de consultas ambulatoriais?",
         opcoes: {
-            a: "PEP",
-            b: "Painel Clínico",
-            c: "CPOE",
-            d: "ADEP"
+            a: "Gestão de Leitos.",
+            b: "Agenda de Consultas.",
+            c: "Entrada Única.",
+            d: "Painel de Chamada."
         },
         certa: "b",
-        expl: "Correta: O Painel Clínico mostra os pacientes em cards."
+        expl: "Correta: A Agenda de Consultas é o módulo próprio."
     },
     {
         numero: 22,
-        texto: "Quais itens no PEP são comumente registrados pelo médico na internação?",
+        texto: "Qual a sequência correta do fluxo de atendimento ambulatorial?",
         opcoes: {
-            a: "Dispositivos, Sinais Vitais, Plano de Cuidados",
-            b: "Prescrição, Plano de Cuidados, Diagnóstico e CPOE",
-            c: "Balanço Hídrico, Sinais Vitais, Plano de Cuidados",
-            d: "Diagnóstico, Receitas, Atestados"
+            a: "Atendimento → Agendamento → Autorização.",
+            b: "Agendamento → Autorização do convênio → Atendimento.",
+            c: "Autorização → Atendimento → Agendamento.",
+            d: "Agendamento → Atendimento → Autorização."
         },
         certa: "b",
-        expl: "Correta: Ao médico cabe prescrição (CPOE), diagnóstico, plano de cuidados."
-    }
-];
-
-// ==============================================
-// PARTE 4 — ADMINISTRAÇÃO DO SISTEMA (23 a 32)
-// ==============================================
-const adminPerguntas = [
+        expl: "Correta: Agenda → Autoriza → Atende."
+    },
     {
         numero: 23,
-        texto: "Dois repositórios exigem configuração obrigatória de local de armazenamento. Quais são eles?",
+        texto: "O que é registrado em Tempos e Movimentos Cirúrgicos?",
         opcoes: {
-            a: "DEFAULT e TEMP",
-            b: "DEFAULT e COBRANCA_ANEXO",
-            c: "TEMP e BATCH_ACCOUNT",
-            d: "DEFAULT e CHECKLIST"
+            a: "O nome dos pacientes da fila.",
+            b: "Preparo, entrada, saída e encerramento da cirurgia.",
+            c: "O material utilizado.",
+            d: "A autorização do convênio."
         },
-        certa: "a",
-        expl: "Correta: DEFAULT (padrão) e TEMP (temporários) são obrigatórios."
+        certa: "b",
+        expl: "Correta: Registra os horários de cada fase da cirurgia."
     },
     {
         numero: 24,
-        texto: "Qual é a principal utilidade do recurso Infobutton?",
+        texto: "Onde é feito o agendamento de procedimentos cirúrgicos?",
         opcoes: {
-            a: "Fornecer informações de parâmetros.",
-            b: "Fornecer detalhes de localidade do usuário.",
-            c: "Fornecer informações de regras de utilização.",
-            d: "Fornecer detalhes adicionais do campo, incluindo tabela e atributo."
+            a: "Agenda de Consultas.",
+            b: "Gestão da Agenda Cirúrgica.",
+            c: "Painel de Internação.",
+            d: "Entrada Única."
         },
-        certa: "d",
-        expl: "Correta: Mostra o que preencher + descrição técnica do campo."
+        certa: "b",
+        expl: "Correta: Tem agenda própria para cirurgias."
     },
     {
         numero: 25,
-        texto: "Através de qual recurso o usuário acessa as funções do sistema?",
+        texto: "O que é a CLEPA?",
         opcoes: {
-            a: "Perfis",
-            b: "Empresa",
-            c: "Setor",
-            d: "Estabelecimento"
+            a: "Lista de materiais cirúrgicos.",
+            b: "Avaliação pré-anestésica e consentimento do paciente.",
+            c: "Escala de classificação de risco.",
+            d: "Controle de profissionais."
         },
-        certa: "a",
-        expl: "Correta: O Perfil define o que cada usuário pode acessar."
+        certa: "b",
+        expl: "Correta: Avaliação anestésica + termo de consentimento."
     },
     {
         numero: 26,
-        texto: "Onde se configuram valores máximos e mínimos de Sinais Vitais com alertas?",
+        texto: "O que a enfermagem registra no PEP durante a internação?",
         opcoes: {
-            a: "Parâmetros Assistenciais → Sinais Vitais",
-            b: "Parâmetros Assistenciais → Itens ProntoAtendimento",
-            c: "Parâmetros Assistenciais → Itens PEPO",
-            d: "Parâmetros Assistenciais → Abas do ProntoAtendimento"
+            a: "Sinais vitais, anotações, plano de cuidados e dispositivos.",
+            b: "Prescrição médica e diagnóstico.",
+            c: "Faturamento da conta.",
+            d: "Escala de funcionários."
         },
-        certa: "c",
-        expl: "Correta: Limites de Sinais Vitais são configurados em Itens PEPO."
+        certa: "a",
+        expl: "Correta: Prescrição é do médico; enfermagem registra assistência."
     },
     {
         numero: 27,
-        texto: "Onde é possível definir regra de armazenamento por Tabela e Atributo?",
+        texto: "O que o médico registra no PEP/CPOE?",
         opcoes: {
-            a: "Parâmetros → Computadores",
-            b: "Parâmetros → Regras",
-            c: "Parâmetros → Repositório de Arquivos",
-            d: "Parâmetros → Armazenamento de Arquivos"
+            a: "Anotações de enfermagem.",
+            b: "Prescrições, diagnósticos e evoluções.",
+            c: "Controle de leitos.",
+            d: "Escala de plantão."
         },
-        certa: "c",
-        expl: "Correta: Repositório de Arquivos = regras específicas. Armazenamento = configuração geral."
+        certa: "b",
+        expl: "Correta: Prescreve, diagnostica e faz evolução."
     },
     {
         numero: 28,
-        texto: "O que faz a opção Conversão Meio Externo?",
+        texto: "O que mostra o Painel Clínico?",
         opcoes: {
-            a: "Configura troca de dados entre Tasy e sistemas externos.",
-            b: "Consulta logs de ações.",
-            c: "Configura repositórios de arquivos.",
-            d: "Atualiza a versão do sistema."
+            a: "A agenda do dia.",
+            b: "Pacientes internados organizados por leito em forma de cartões.",
+            c: "Os exames pendentes.",
+            d: "A fila de espera."
         },
-        certa: "a",
-        expl: "Correta: Serve para integração com outros sistemas."
+        certa: "b",
+        expl: "Correta: Visualização rápida por leito e setor."
     },
     {
         numero: 29,
-        texto: "Onde se configuram os itens que aparecem no PEP por usuário?",
+        texto: "Quais informações são verdadeiras sobre o fluxo de atendimento?",
+        multipla: true,
         opcoes: {
-            a: "Administração do Sistema → Parâmetros",
-            b: "Administração do Sistema → Parâmetros Assistenciais",
-            c: "Administração do Sistema → Configurações de utilização",
-            d: "Administração do Sistema → Perfis → Itens Prontuário"
+            a: "O número de atendimento é obrigatório para registro no prontuário.",
+            b: "Sempre é necessário agendar antes de comparecer.",
+            c: "Ao final do atendimento podem ser emitidas receita e atestado.",
+            d: "Toda consulta precisa de autorização prévia do convênio."
         },
-        certa: "d",
-        expl: "Correta: A visualização é definida por Perfil → Itens Prontuário."
+        certas: ["a", "c"],
+        expl: "Corretas: A e C. Nem tudo precisa de agendamento e nem de autorização prévia."
     },
     {
         numero: 30,
-        texto: "O que se faz na aba Aplicação da Administração do Sistema?",
+        texto: "Onde é feita a conferência e administração da prescrição pela enfermagem?",
         opcoes: {
-            a: "Gerenciar os perfis.",
-            b: "Atualizar senha do usuário.",
-            c: "Alterar senha do usuário.",
-            d: "Atualizar o número da versão."
+            a: "No CPOE.",
+            b: "Na ADEP.",
+            c: "No PEP.",
+            d: "Na Entrada Única."
         },
-        certa: "d",
-        expl: "Correta: A aba Aplicação serve para atualizar a versão do sistema."
+        certa: "b",
+        expl: "Correta: A ADEP é o ambiente específico da enfermagem."
     },
     {
         numero: 31,
-        texto: "Onde definir se um campo é visível ou obrigatório?",
+        texto: "Qual função dá início ao fluxo do paciente no sistema?",
         opcoes: {
-            a: "Parâmetros",
-            b: "Configuração de Utilização → Atributos",
-            c: "Parâmetros Função",
-            d: "Permissões"
+            a: "Agenda de Consultas.",
+            b: "Entrada Única de Paciente.",
+            c: "Prontuário Eletrônico.",
+            d: "Triagem."
         },
         certa: "b",
-        expl: "Correta: Visibilidade e obrigatoriedade → Atributos."
-    },
-    {
-        numero: 32,
-        texto: "Onde configurar permissões para dados sensíveis e exclusão de dados?",
-        opcoes: {
-            a: "Parâmetros Função",
-            b: "Usuário",
-            c: "Parâmetros",
-            d: "Perfil"
-        },
-        certa: "a",
-        expl: "Correta: Restrições especiais são configuradas em Parâmetros Função."
+        expl: "Correta: É o primeiro passo — cadastrar a entrada do paciente."
     }
 ];
 
-// ==============================================
-// CONTROLE DE ESTADO
-// ==============================================
-let arquitetura = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-let cadastros = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-let fluxo = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-let admin = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-let dataHoraConclusao = "";
-const TOTAL_ARQUITETURA = arquiteturaPerguntas.length;
-const TOTAL_CADASTROS = cadastrosPerguntas.length;
-const TOTAL_FLUXO = fluxoPerguntas.length;
-const TOTAL_ADMIN = adminPerguntas.length;
+const admin = [
+    {
+        numero: 32,
+        texto: "Quais repositórios são obrigatórios no sistema?",
+        opcoes: {
+            a: "DOCUMENTOS e IMAGENS.",
+            b: "DEFAULT e TEMP.",
+            c: "ARQUIVOS e RELATÓRIOS.",
+            d: "UPLOAD e DOWNLOAD."
+        },
+        certa: "b",
+        expl: "Correta: DEFAULT e TEMP são criados automaticamente e não podem ser excluídos."
+    },
+    {
+        numero: 33,
+        texto: "Para que serve o Infobutton?",
+        opcoes: {
+            a: "Preencher o campo automaticamente.",
+            b: "Mostrar detalhes: nome da tabela, do atributo e descrição do campo.",
+            c: "Traduzir o campo para o inglês.",
+            d: "Enviar o dado por e-mail."
+        },
+        certa: "b",
+        expl: "Correta: Ajuda técnica — mostra de onde vem o dado."
+    },
+    {
+        numero: 34,
+        texto: "O que define quais funções o usuário acessa?",
+        opcoes: {
+            a: "O departamento.",
+            b: "O Perfil associado ao usuário.",
+            c: "A senha do sistema.",
+            d: "O tipo de contrato."
+        },
+        certa: "b",
+        expl: "Correta: O Perfil controla todo o acesso às funções."
+    },
+    {
+        numero: 35,
+        texto: "Onde se configuram os limites e alertas de sinais vitais?",
+        opcoes: {
+            a: "Parâmetros Gerais.",
+            b: "Itens do PEPO.",
+            c: "Cadastro de Leitos.",
+            d: "Painel Clínico."
+        },
+        certa: "b",
+        expl: "Correta: Configura-se nos Itens do PEPO com valores de referência."
+    },
+    {
+        numero: 36,
+        texto: "Onde se define o repositório padrão por tipo de documento?",
+        opcoes: {
+            a: "Configuração de Utilização.",
+            b: "Parâmetros → Repositório de Arquivos.",
+            c: "Cadastro de Usuários.",
+            d: "Configuração de Rede."
+        },
+        certa: "b",
+        expl: "Correta: Associa tabela/atributo a um repositório."
+    },
+    {
+        numero: 37,
+        texto: "Para que serve a Conversão de Meio Externo?",
+        opcoes: {
+            a: "Importar notas fiscais.",
+            b: "Trocar informações entre o Tasy e sistemas externos.",
+            c: "Conversão de moeda.",
+            d: "Backup de dados."
+        },
+        certa: "b",
+        expl: "Correta: Integração com sistemas de terceiros."
+    },
+    {
+        numero: 38,
+        texto: "Onde configurar quais itens aparecem no PEP por perfil?",
+        opcoes: {
+            a: "Configuração de Utilização → Itens do Prontuário, por Perfil.",
+            b: "Parâmetros Assistenciais.",
+            c: "Cadastro de Setores.",
+            d: "Preferências do Usuário."
+        },
+        certa: "a",
+        expl: "Correta: Define visibilidade por perfil de usuário."
+    },
+    {
+        numero: 39,
+        texto: "O que se faz na aba Aplicação da Administração do Sistema?",
+        opcoes: {
+            a: "Trocar a senha de todos os usuários.",
+            b: "Atualizar o número da versão do sistema.",
+            c: "Instalar impressoras.",
+            d: "Criar departamentos."
+        },
+        certa: "b",
+        expl: "Correta: É onde se registra a versão instalada."
+    },
+    {
+        numero: 40,
+        texto: "Onde se define se um campo é obrigatório ou visível?",
+        opcoes: {
+            a: "Parâmetros Gerais.",
+            b: "Configuração de Utilização → Atributos.",
+            c: "Cadastro de Campos.",
+            d: "Administração de Rede."
+        },
+        certa: "b",
+        expl: "Correta: Atributos controlam obrigatoriedade, visibilidade e valor padrão."
+    },
+    {
+        numero: 41,
+        texto: "Onde se configuram permissões especiais como exclusão de registros?",
+        opcoes: {
+            a: "Parâmetros Função.",
+            b: "Perfil de Acesso.",
+            c: "Gestão de Segurança.",
+            d: "Configuração de Rede."
+        },
+        certa: "a",
+        expl: "Correta: Parâmetros Função liberam permissões específicas."
+    }
+];
 
-// ==============================================
-// INICIALIZAÇÃO
-// ==============================================
+// ============= CONTROLE =============
+let estado = {
+    cad: { acertos: 0, respondidas: 0, erros: [] },
+    over: { acertos: 0, respondidas: 0, erros: [] },
+    arq: { acertos: 0, respondidas: 0, erros: [] },
+    flu: { acertos: 0, respondidas: 0, erros: [] },
+    adm: { acertos: 0, respondidas: 0, erros: [] }
+};
+let dataHora = "";
+
+const TOTAL = { cad: cadastros.length, over: overview.length, arq: arquitetura.length, flu: fluxo.length, adm: admin.length };
+
+// ============= INICIAR =============
 function iniciarTudo() {
-    arquitetura = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-    cadastros = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-    fluxo = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-    admin = { acertos: 0, respondidas: 0, erros: [], selecoes: {} };
-    dataHoraConclusao = "";
-    document.getElementById('resultado-geral').style.display = 'none';
-
-    const areaArquitetura = document.getElementById('area-arquitetura');
-    const areaCadastros = document.getElementById('area-cadastros');
-    const areaFluxo = document.getElementById('area-fluxo');
-    const areaAdmin = document.getElementById('area-admin');
-    areaArquitetura.innerHTML = '';
-    areaCadastros.innerHTML = '';
-    areaFluxo.innerHTML = '';
-    areaAdmin.innerHTML = '';
-
-    arquiteturaPerguntas.forEach(p => renderizar(p, areaArquitetura, 'R'));
-    cadastrosPerguntas.forEach(p => renderizar(p, areaCadastros, 'C'));
-    fluxoPerguntas.forEach(p => renderizar(p, areaFluxo, 'F'));
-    adminPerguntas.forEach(p => renderizar(p, areaAdmin, 'A'));
+    estado = {
+        cad: { acertos: 0, respondidas: 0, erros: [] },
+        over: { acertos: 0, respondidas: 0, erros: [] },
+        arq: { acertos: 0, respondidas: 0, erros: [] },
+        flu: { acertos: 0, respondidas: 0, erros: [] },
+        adm: { acertos: 0, respondidas: 0, erros: [] }
+    };
+    dataHora = "";
+    document.getElementById("resultado-geral").style.display = "none";
+    
+    document.getElementById("area-cadastros").innerHTML = "";
+    document.getElementById("area-overview").innerHTML = "";
+    document.getElementById("area-arquitetura").innerHTML = "";
+    document.getElementById("area-fluxo").innerHTML = "";
+    document.getElementById("area-admin").innerHTML = "";
+    
+    cadastros.forEach(p => montar(p, "cad", "area-cadastros"));
+    overview.forEach(p => montar(p, "over", "area-overview"));
+    arquitetura.forEach(p => montar(p, "arq", "area-arquitetura"));
+    fluxo.forEach(p => montar(p, "flu", "area-fluxo"));
+    admin.forEach(p => montar(p, "adm", "area-admin"));
 }
 
-function renderizar(p, area, prefixo) {
-    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
-    estado.selecoes[p.numero] = [];
-
-    let html = `<div class="questao" id="q${prefixo}-${p.numero}">`;
-    html += `<p class="enunciado">${p.numero}. ${p.texto}</p>`;
-
+function montar(p, grupo, containerId) {
+    const container = document.getElementById(containerId);
+    const idQ = `q${grupo}${p.numero}`;
+    const idResp = `resp${grupo}${p.numero}`;
+    
+    let html = `<div class="questao" id="${idQ}">
+        <p class="enunciado">${p.numero}. ${p.texto}</p>`;
+    
     if (p.multipla) {
-        html += `<p class="aviso-multipla">ℹ️ Selecione TODAS as corretas e clique em CONFIRMAR</p>`;
-        Object.keys(p.opcoes).forEach(letra => {
-            html += `<label class="alternativa" id="opt${prefixo}-${p.numero}-${letra}" onclick="trocar('${prefixo}', ${p.numero}, '${letra}')">${letra.toUpperCase()}) ${p.opcoes[letra]}</label>`;
-        });
-        html += `<button class="btn btn-confirma" onclick="verificarMultipla('${prefixo}', ${p.numero})">✅ CONFIRMAR</button>`;
+        html += `<p class="aviso-multipla">ℹ️ Selecione TODAS as alternativas corretas e clique em Confirmar</p>`;
+        for (const l in p.opcoes) {
+            html += `<label class="alternativa" id="opt${grupo}${p.numero}${l}" onclick="marcar('${grupo}',${p.numero},'${l}')">${l.toUpperCase()}) ${p.opcoes[l]}</label>`;
+        }
+        html += `<button class="btn-confirma" onclick="verificarMulti('${grupo}',${p.numero})">✅ Confirmar</button>`;
     } else {
-        Object.keys(p.opcoes).forEach(letra => {
-            html += `<label class="alternativa" onclick="verificarUnica('${prefixo}', ${p.numero}, '${letra}')">${letra.toUpperCase()}) ${p.opcoes[letra]}</label>`;
-        });
+        for (const l in p.opcoes) {
+            html += `<label class="alternativa" onclick="verificarUnica('${grupo}',${p.numero},'${l}')">${l.toUpperCase()}) ${p.opcoes[l]}</label>`;
+        }
     }
-
-    html += `<div class="resposta" id="resp${prefixo}-${p.numero}"></div></div>`;
-    area.innerHTML += html;
+    html += `<div class="resposta" id="${idResp}"></div></div>`;
+    container.innerHTML += html;
 }
 
-// ==============================================
-// LÓGICA DE RESPOSTA
-// ==============================================
-function trocar(prefixo, numero, letra) {
-    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
-    const idx = estado.selecoes[numero].indexOf(letra);
-    const el = document.getElementById(`opt${prefixo}-${numero}-${letra}`);
-    if (idx === -1) {
-        estado.selecoes[numero].push(letra);
-        el.classList.add('selecionada');
-    } else {
-        estado.selecoes[numero].splice(idx, 1);
-        el.classList.remove('selecionada');
-    }
+function marcar(grupo, num, letra) {
+    const el = document.getElementById(`opt${grupo}${num}${letra}`);
+    el.classList.toggle("selecionada");
 }
 
-function verificarMultipla(prefixo, numero) {
-    const divQ = document.getElementById(`q${prefixo}-${numero}`);
-    if (divQ.classList.contains('respondida')) return;
-    divQ.classList.add('respondida');
-
-    const perguntas = prefixo === 'R' ? arquiteturaPerguntas : prefixo === 'C' ? cadastrosPerguntas : prefixo === 'F' ? fluxoPerguntas : adminPerguntas;
-    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
-    const p = perguntas.find(x => x.numero === numero);
-    const selecionadas = estado.selecoes[numero];
-
-    const acertou = p.certas.every(c => selecionadas.includes(c)) &&
-                    selecionadas.every(s => p.certas.includes(s));
-
-    const respDiv = document.getElementById(`resp${prefixo}-${numero}`);
-    respDiv.style.display = 'block';
-
+function verificarUnica(grupo, num, escolhida) {
+    const divQ = document.getElementById(`q${grupo}${num}`);
+    if (divQ.classList.contains("respondida")) return;
+    divQ.classList.add("respondida");
+    divQ.querySelectorAll(".alternativa").forEach(l => l.style.pointerEvents = "none");
+    
+    const lista = grupo === "cad" ? cadastros : grupo === "over" ? overview : grupo === "arq" ? arquitetura : grupo === "flu" ? fluxo : admin;
+    const p = lista.find(x => x.numero === num);
+    const acertou = escolhida === p.certa;
+    const respDiv = document.getElementById(`resp${grupo}${num}`);
+    respDiv.style.display = "block";
+    
     if (acertou) {
-        estado.acertos++;
-        respDiv.className = 'resposta resposta-correta';
-        respDiv.innerHTML = '<strong>✅ Correto!</strong><br><br>' + p.expl;
+        estado[grupo].acertos++;
+        respDiv.className = "resposta resposta-correta";
+        respDiv.innerHTML = `<strong>✅ Correto!</strong><br><br>${p.expl}`;
     } else {
-        respDiv.className = 'resposta resposta-errada';
-        respDiv.innerHTML = '<strong>❌ Incorreto</strong><br><br>Você marcou: ' + (selecionadas.length ? selecionadas.join(', ') : 'nenhuma') + '<br>Corretas: ' + p.certas.join(', ') + '<br><br>' + p.expl;
-        estado.erros.push({ num: numero, escolha: selecionadas.join(', ') || 'nenhuma', certa: p.certas.join(', ') });
+        respDiv.className = "resposta resposta-errada";
+        respDiv.innerHTML = `<strong>❌ Incorreto</strong><br>Você respondeu: ${escolhida.toUpperCase()}<br>Resposta correta: ${p.certa.toUpperCase()}<br><br>${p.expl}`;
+        estado[grupo].erros.push({ n: num, s: escolhida.toUpperCase(), c: p.certa.toUpperCase() });
     }
-
-    estado.respondidas++;
-    verificarConcluido();
+    estado[grupo].respondidas++;
+    checarFim();
 }
 
-function verificarUnica(prefixo, numero, letraEscolhida) {
-    const divQ = document.getElementById(`q${prefixo}-${numero}`);
-    if (divQ.classList.contains('respondida')) return;
-    divQ.classList.add('respondida');
-    divQ.querySelectorAll('.alternativa').forEach(l => l.style.pointerEvents = 'none');
-
-    const perguntas = prefixo === 'R' ? arquiteturaPerguntas : prefixo === 'C' ? cadastrosPerguntas : prefixo === 'F' ? fluxoPerguntas : adminPerguntas;
-    const estado = prefixo === 'R' ? arquitetura : prefixo === 'C' ? cadastros : prefixo === 'F' ? fluxo : admin;
-    const p = perguntas.find(x => x.numero === numero);
-    const acertou = letraEscolhida === p.certa;
-    const respDiv = document.getElementById(`resp${prefixo}-${numero}`);
-    respDiv.style.display = 'block';
-
+function verificarMulti(grupo, num) {
+    const divQ = document.getElementById(`q${grupo}${num}`);
+    if (divQ.classList.contains("respondida")) return;
+    
+    const lista = grupo === "cad" ? cadastros : grupo === "over" ? overview : grupo === "arq" ? arquitetura : grupo === "flu" ? fluxo : admin;
+    const p = lista.find(x => x.numero === num);
+    
+    const sel = [];
+    for (const l in p.opcoes) {
+        if (document.getElementById(`opt${grupo}${num}${l}`).classList.contains("selecionada")) {
+            sel.push(l);
+        }
+    }
+    
+    divQ.classList.add("respondida");
+    divQ.querySelectorAll(".alternativa").forEach(l => l.style.pointerEvents = "none");
+    
+    const acertou = p.certas.every(c => sel.includes(c)) && sel.every(s => p.certas.includes(s));
+    const respDiv = document.getElementById(`resp${grupo}${num}`);
+    respDiv.style.display = "block";
+    
     if (acertou) {
-        estado.acertos++;
-        respDiv.className = 'resposta resposta-correta';
-        respDiv.innerHTML = '<strong>✅ Correto!</strong><br><br>' + p.expl;
+        estado[grupo].acertos++;
+        respDiv.className = "resposta resposta-correta";
+        respDiv.innerHTML = `<strong>✅ Correto!</strong><br><br>${p.expl}`;
     } else {
-        respDiv.className = 'resposta resposta-errada';
-        respDiv.innerHTML = '<strong>❌ Incorreto</strong><br><br>Você escolheu: ' + letraEscolhida.toUpperCase() + '<br>Correta: ' + p.certa.toUpperCase() + '<br><br>' + p.expl;
-        estado.erros.push({ num: numero, escolha: letraEscolhida.toUpperCase(), certa: p.certa.toUpperCase() });
+        respDiv.className = "resposta resposta-errada";
+        respDiv.innerHTML = `<strong>❌ Incorreto</strong><br>Você marcou: ${sel.length ? sel.join(", ").toUpperCase() : "nenhuma"}<br>Corretas: ${p.certas.join(", ").toUpperCase()}<br><br>${p.expl}`;
+        estado[grupo].erros.push({ n: num, s: sel.join(", ").toUpperCase() || "nenhuma", c: p.certas.join(", ").toUpperCase() });
     }
-
-    estado.respondidas++;
-    verificarConcluido();
+    estado[grupo].respondidas++;
+    checarFim();
 }
 
-function verificarConcluido() {
-    if (arquitetura.respondidas === TOTAL_ARQUITETURA && 
-        cadastros.respondidas === TOTAL_CADASTROS && 
-        fluxo.respondidas === TOTAL_FLUXO && 
-        admin.respondidas === TOTAL_ADMIN) {
-        const agora = new Date();
-        dataHoraConclusao = agora.toLocaleString('pt-BR');
-        mostrarResultadoGeral();
+function checarFim() {
+    if (estado.cad.respondidas === TOTAL.cad &&
+        estado.over.respondidas === TOTAL.over &&
+        estado.arq.respondidas === TOTAL.arq &&
+        estado.flu.respondidas === TOTAL.flu &&
+        estado.adm.respondidas === TOTAL.adm) {
+        
+        dataHora = new Date().toLocaleString("pt-BR");
+        mostrarResultado();
     }
 }
 
-function mostrarResultadoGeral() {
-    const totalGeral = TOTAL_ARQUITETURA + TOTAL_CADASTROS + TOTAL_FLUXO + TOTAL_ADMIN;
-    const acertoGeral = arquitetura.acertos + cadastros.acertos + fluxo.acertos + admin.acertos;
-    const porc = Math.round((acertoGeral / totalGeral) * 100);
-
-    document.getElementById('data-hora-resultado').innerHTML = '📅 Concluído em: ' + dataHoraConclusao;
-    document.getElementById('acertos-arquitetura').textContent = arquitetura.acertos;
-    document.getElementById('acertos-cadastros').textContent = cadastros.acertos;
-    document.getElementById('acertos-fluxo').textContent = fluxo.acertos;
-    document.getElementById('acertos-admin').textContent = admin.acertos;
-    document.getElementById('total-acertos').textContent = acertoGeral;
-    document.getElementById('porc-geral').textContent = porc;
-    document.getElementById('barra-geral').style.width = porc + '%';
-    document.getElementById('barra-geral').style.background = porc >= 75 ? '#28a745' : porc >= 58 ? '#f59e0b' : '#dc3545';
-
-    let msg = '';
-    if (porc >= 85) msg = '🏆 Excelente! Está mais do que preparado!';
-    else if (porc >= 75) msg = '✅ Parabéns! Pode fazer a prova com confiança!';
-    else if (porc >= 60) msg = '⚠️ Quase lá! Revise os erros e refaça.';
-    else msg = '📚 Recomendado estudar mais antes da certificação.';
-    document.getElementById('mensagem-geral').textContent = msg;
-
-    // Erros — Arquitetura
-    const listaArq = document.getElementById('lista-erros-arquitetura');
-    if (arquitetura.erros.length > 0) {
-        listaArq.innerHTML = arquitetura.erros.map(e => '• Q' + e.num + ': Você: ' + e.escolha + ' | Correta: ' + e.certa).join('<br>');
-    } else {
-        listaArq.innerHTML = 'Nenhum erro! 🎉';
-    }
-
-    // Erros — Cadastros
-    const listaCad = document.getElementById('lista-erros-cadastros');
-    if (cadastros.erros.length > 0) {
-        listaCad.innerHTML = cadastros.erros.map(e => '• Q' + e.num + ': Você: ' + e.escolha + ' | Correta: ' + e.certa).join('<br>');
-    } else {
-        listaCad.innerHTML = 'Nenhum erro! 🎉';
-    }
-
-    // Erros — Fluxo
-    const listaFluxo = document.getElementById('lista-erros-fluxo');
-    if (fluxo.erros.length > 0) {
-        listaFluxo.innerHTML = fluxo.erros.map(e => '• Q' + e.num + ': Você: ' + e.escolha + ' | Correta: ' + e.certa).join('<br>');
-    } else {
-        listaFluxo.innerHTML = 'Nenhum erro! 🎉';
-    }
-
-    // Erros — Administração
-    const listaAdmin = document.getElementById('lista-erros-admin');
-    if (admin.erros.length > 0) {
-        listaAdmin.innerHTML = admin.erros.map(e => '• Q' + e.num + ': Você: ' + e.escolha + ' | Correta: ' + e.certa).join('<br>');
-    } else {
-        listaAdmin.innerHTML = 'Nenhum erro! 🎉';
-    }
-
-    document.getElementById('todos-erros').style.display = 'block';
-    document.getElementById('resultado-geral').style.display = 'block';
-    document.getElementById('resultado-geral').scrollIntoView({ behavior: 'smooth' });
+function mostrarResultado() {
+    const totalPontos = TOTAL.cad + TOTAL.over + TOTAL.arq + TOTAL.flu + TOTAL.adm;
+    const acertosTotais = estado.cad.acertos + estado.over.acertos + estado.arq.acertos + estado.flu.acertos + estado.adm.acertos;
+    const porcentagem = Math.round((acertosTotais / totalPontos) * 100);
+    
+    document.getElementById("data-hora").innerText = `📅 Concluído em: ${dataHora}`;
+    document.getElementById("ac-cad").innerText = estado.cad.acertos;
+    document.getElementById("ac-over").innerText = estado.over.acertos;
+    document.getElementById("ac-arq").innerText = estado.arq.acertos;
+    document.getElementById("ac-flu").innerText = estado.flu.acertos;
+    document.getElementById("ac-adm").innerText = estado.adm.acertos;
+    document.getElementById("ac-total").innerText = acertosTotais;
+    document.getElementById("porc").innerText = porcentagem;
+    
+    const barra = document.getElementById("barra-progresso");
+    barra.style.width = porcentagem + "%";
+    barra.style.background = porcentagem >= 75 ? "#28a745" : porcentagem >= 60 ? "#ffc107" : "#dc3545";
+    
+    let msg = "";
+    if (porcentagem >= 85) msg = "🏆 Excelente! Você está muito bem preparado!";
+    else if (porcentagem >= 75) msg = "✅ Parabéns! Pode fazer a prova com confiança!";
+    else if (porcentagem >= 60) msg = "⚠️ Bom progresso! Revise os erros e refaça.";
+    else msg = "📚 Recomendado estudar mais e refazer o quiz.";
+    document.getElementById("mensagem-final").innerText = msg;
+    
+    // Lista de erros
+    let errosHtml = "";
+    if (estado.cad.erros.length) errosHtml += `<div class="erro-item"><strong>Cadastros Gerais:</strong><br>${estado.cad.erros.map(e => `• Q${e.n}: Você: ${e.s} | Correta: ${e.c}`).join("<br>")}</div>`;
+    if (estado.over.erros.length) errosHtml += `<div class="erro-item"><strong>Overview:</strong><br>${estado.over.erros.map(e => `• Q${e.n}: Você: ${e.s} | Correta: ${e.c}`).join("<br>")}</div>`;
+    if (estado.arq.erros.length) errosHtml += `<div class="erro-item"><strong>Arquitetura:</strong><br>${estado.arq.erros.map(e => `• Q${e.n}: Você: ${e.s} | Correta: ${e.c}`).join("<br>")}</div>`;
+    if (estado.flu.erros.length) errosHtml += `<div class="erro-item"><strong>Fluxo de Paciente:</strong><br>${estado.flu.erros.map(e => `• Q${e.n}: Você: ${e.s} | Correta: ${e.c}`).join("<br>")}</div>`;
+    if (estado.adm.erros.length) errosHtml += `<div class="erro-item"><strong>Administração:</strong><br>${estado.adm.erros.map(e => `• Q${e.n}: Você: ${e.s} | Correta: ${e.c}`).join("<br>")}</div>`;
+    if (!errosHtml) errosHtml = "<strong>🎉 Parabéns! Nenhum erro!</strong>";
+    
+    document.getElementById("lista-erros").innerHTML = errosHtml;
+    document.getElementById("caixa-erros").style.display = "block";
+    document.getElementById("resultado-geral").style.display = "block";
 }
 
-// ==============================================
-// ENVIAR PELO WHATSAPP
-// ==============================================
 function enviarWhatsApp() {
-    const totalGeral = TOTAL_ARQUITETURA + TOTAL_CADASTROS + TOTAL_FLUXO + TOTAL_ADMIN;
-    const acertoGeral = arquitetura.acertos + cadastros.acertos + fluxo.acertos + admin.acertos;
-    const porc = Math.round((acertoGeral / totalGeral) * 100);
+    const totalPontos = TOTAL.cad + TOTAL.over + TOTAL.arq + TOTAL.flu + TOTAL.adm;
+    const acertosTotais = estado.cad.acertos + estado.over.acertos + estado.arq.acertos + estado.flu.acertos + estado.adm.acertos;
+    const porcentagem = Math.round((acertosTotais / totalPontos) * 100);
+    
+    const mensagem = `📚 RESULTADO — ESTUDO COMPLETO TASY
+📅 Concluído em: ${dataHora}
 
-    let errosArq = '';
-    if (arquitetura.erros.length > 0) {
-        arquitetura.erros.forEach(e => {
-            errosArq += '- Q' + e.num + ': Você ' + e.escolha + ' | Correta ' + e.certa + '\n';
-        });
-    } else {
-        errosArq = '- Nenhum erro!';
-    }
+📄 Cadastros Gerais: ${estado.cad.acertos}/${TOTAL.cad}
+📖 Overview: ${estado.over.acertos}/${TOTAL.over}
+🏗️ Arquitetura: ${estado.arq.acertos}/${TOTAL.arq}
+🏥 Fluxo de Paciente: ${estado.flu.acertos}/${TOTAL.flu}
+⚙️ Administração: ${estado.adm.acertos}/${TOTAL.adm}
 
-    let errosCad = '';
-    if (cadastros.erros.length > 0) {
-        cadastros.erros.forEach(e => {
-            errosCad += '- Q' + e.num + ': Você ' + e.escolha + ' | Correta ' + e.certa + '\n';
-        });
-    } else {
-        errosCad = '- Nenhum erro!';
-    }
-
-    let errosFluxoTexto = '';
-    if (fluxo.erros.length > 0) {
-        fluxo.erros.forEach(e => {
-            errosFluxoTexto += '- Q' + e.num + ': Você ' + e.escolha + ' | Correta ' + e.certa + '\n';
-        });
-    } else {
-        errosFluxoTexto = '- Nenhum erro!';
-    }
-
-    let errosAdminTexto = '';
-    if (admin.erros.length > 0) {
-        admin.erros.forEach(e => {
-            errosAdminTexto += '- Q' + e.num + ': Você ' + e.escolha + ' | Correta ' + e.certa + '\n';
-        });
-    } else {
-        errosAdminTexto = '- Nenhum erro!';
-    }
-
-    let msg = '';
-    if (porc >= 85) msg = 'Excelente! Esta preparado!';
-    else if (porc >= 75) msg = 'Parabens! Pode fazer a prova!';
-    else if (porc >= 60) msg = 'Quase la! Revise e refaca.';
-    else msg = 'Estude mais antes da prova.';
-
-    const mensagem = 
-'Resultado Quiz Tasy Completo\n' +
-'Data: ' + dataHoraConclusao + '\n' +
-'\n' +
-'Arquitetura: ' + arquitetura.acertos + '/5\n' +
-'Cadastros Gerais: ' + cadastros.acertos + '/5\n' +
-'Fluxo de Paciente: ' + fluxo.acertos + '/12\n' +
-'Administracao: ' + admin.acertos + '/10\n' +
-'TOTAL: ' + acertoGeral + '/' + totalGeral + '\n' +
-'Porcentagem: ' + porc + '%\n' +
-'\n' +
-msg + '\n' +
-'\n' +
-'--- Erros Arquitetura ---\n' +
-errosArq + '\n' +
-'--- Erros Cadastros ---\n' +
-errosCad + '\n' +
-'--- Erros Fluxo ---\n' +
-errosFluxoTexto + '\n' +
-'--- Erros Administracao ---\n' +
-errosAdminTexto;
-
-    const link = 'https://wa.me/?text=' + encodeURIComponent(mensagem);
-    window.open(link, '_blank');
+✅ TOTAL: ${acertosTotais}/${totalPontos} — ${porcentagem}%`;
+    
+    window.open(`https://wa.me/?text=${encodeURIComponent(mensagem)}`, "_blank");
 }
-
-window.onload = iniciarTudo;
 </script>
 </body>
 </html>
